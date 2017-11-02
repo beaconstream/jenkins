@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/imageView_height_L"
+            android:background="@drawable/background_blur"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_M"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/days"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/bg_colorprimary_rounded_panel"
+                        android:gravity="center"
+                        android:textColor="@color/White" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="DAYS"
+                        android:textSize="@dimen/textView_size_S" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_M"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/hours"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/bg_colorprimary_rounded_panel"
+                        android:gravity="center"
+                        android:textColor="@color/White" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="HOURS"
+                        android:textSize="@dimen/textView_size_S" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_M"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/minutes"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/bg_colorprimary_rounded_panel"
+                        android:gravity="center"
+                        android:textColor="@color/White" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="MINUTES"
+                        android:textSize="@dimen/textView_size_S" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_M"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/seconds"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/bg_colorprimary_rounded_panel"
+                        android:gravity="center"
+                        android:textColor="@color/White" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="SECONDS"
+                        android:textSize="@dimen/textView_size_S" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin_L"
+                android:text="Ends on 30‑Nov‑2017"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

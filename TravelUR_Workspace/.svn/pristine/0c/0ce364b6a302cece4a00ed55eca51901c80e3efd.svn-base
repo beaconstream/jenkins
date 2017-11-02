@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/textView_color">
+    <LinearLayout
+        android:layout_margin="@dimen/activity_layout_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="0.1"
+            android:id="@+id/questions_checkboc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:drawableRight="@drawable/ic_action_whitecheckmark"/>
+        <!--<CheckBox
+            android:layout_weight="0.9"
+            android:id="@+id/checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/checkbox_white"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>-->
+
+    </LinearLayout>
+
+</LinearLayout>

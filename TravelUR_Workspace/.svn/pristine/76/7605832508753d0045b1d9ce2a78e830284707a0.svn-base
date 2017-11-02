@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">TravelUR</string>
+    <string name="startup">Beacome a member...</string>
+    <string name="globe_text">Chance to win a FREE World Tour!</string>
+    <string name="camera_text">Share experiences with friends and travelers around the world.</string>
+    <string name="unlock_text">Unlock valuable personalized giveaways and travel ideas.</string>
+    <string name="images_text">See pics and videos from TravelUR friends around the world!</string>
+    <string name="journey">Life is a journey, \n Share it.</string>
+    <string name="sign_in_text">Sign into your\n account</string>
+    <string name="font_awesome_android_icon">&#xf17b;</string>
+    <string name="font_awesome_area_chart_icon">&#xf1fe;</string>
+    <string name="font_awesome_cubes_icon">&#xf1b3;</string>
+    <string name="font_awesome_mobile_phone_icon">&#xf10b;</string>
+    <string name="globe">&#xf0ac;</string>
+    <string name="camera">&#xf030;</string>
+    <string name="hotel">&#xf236;</string>
+    <string name="unlock">&#xf09c;</string>
+    <string name="images">&#xf03e;</string>
+    <string name="close">&#xf00d;</string>
+    <string name="arrow">&#xf105;</string>
+    <string name="add_friend">&#xf234;</string>
+    <string name="friends">&#xf0c0;</string>
+    <string name="home">&#xf015;</string>
+    <string name="gift">&#xf06b;</string>
+    <string name="photo">&#xf03e;</string>
+    <string name="alert">&#xf0f3;</string>
+    <string name="search">&#xf0f3;</string>
+    <string name="bus">&#xf207;</string>
+    <string name="settings">&#xf0ad;</string>
+    <string name="profile">&#xf007;</string>
+    <string name="your_trip_icon">&#xf145;</string>
+    <string name="reward_icon">&#xf091;</string>
+    <string name="flight_ptice">"\u20B9 xx,xxx"</string>
+    <string name="flight_icon">&#xf072;</string>
+    <string name="hotel_icon">&#xf236;</string>
+    <string name="videos_icon">&#xf008;</string>
+    <string name="edit_icon">&#xf040;</string>
+    <string name="warning_icon">&#xf071;</string>
+    <string name="group_icon">&#xe900;</string>
+    <string name="posts">&#xe900;</string>
+    <string name="arrival">&#xe900;</string>
+    <string name="add">&#xf067;</string>
+    <string name="open">Open</string>
+    <string name="close_">Close</string>
+    <string name="flying_from">&#xf072; Flying from...</string>
+    <string name="whats_on">Whats on your mind? Share it!</string>
+    <string name="forget_pass">Please enter your e-mail address below and we will send you a confirmation to reset your password.</string>
+    <string name="somewhere">\@ Somewhere on the planet</string>
+    <string name="text_body">Example of the kinds of posts we like to see!\n\n
+
+1. Type an experience you had on your travels.\n
+2. Add a photo or a video if you\'d like!\n
+3. Add a location where you are or where you were at the
+    time of your experience.\n
+
+4. Hit "Post" button... Yeah, it\'s really that easy!\n\n
+
+Welcome to TravelUR! Happy travels.</string>
+    <string name="like">&#xf087;</string>
+    <string name="like_filled">&#xf164;  Like</string>
+    <string name="comment">&#xf0e5;</string>
+    <string name="comment_filled">&#xf075;  Comment</string>
+    <string name="share">&#xf064;  Share</string>
+    <string name="item_1">home</string>
+    <string name="item_2">friends</string>
+    <string name="item_3">message</string>
+    <string name="item_4">alerts</string>
+    <string name="item_5">book trips</string>
+    <string name="item_6">more</string>
+    <string name="edittext_search">Search</string>
+    <string name="Friends_Title">Find friends</string>
+    <string name="Messages_Title">Messages</string>
+    <string name="action_search">Search</string>
+    <string name="profile_icon">&#xf007;</string>
+    <string name="search_hint">Search</string>
+    <string name="app_label">SearchableInterface</string>
+    <string name="action_your_trips">&#xf145;</string>
+</resources>
+

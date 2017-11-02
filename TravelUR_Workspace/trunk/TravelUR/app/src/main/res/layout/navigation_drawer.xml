@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/orange_gradient"
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    android:paddingBottom="24dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/profl_pic" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Craig Bachman"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/profile_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/profile"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Profile"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/trip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/trip_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/your_trip_icon"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Your trips"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rewar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/reward_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/reward_icon"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Rewards"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/flight_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/flight_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/flight_icon"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Flights"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hotel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/hotel_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/hotel_icon"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Hotels"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bus_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/bus_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/bus"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Buses"
+
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vacation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/vacation_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="@string/gift"
+                android:textColor="@android:color/white"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:text="Vacation Packages"
+                android:textColor="@android:color/white"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Help and support"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+
+            />
+
+        <TextView
+            android:id="@+id/terms_of_use"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Terms of service"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cancellation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cancellation"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@android:color/white" />
+
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/button"
+            android:gravity="center"
+            android:text="SIGN OUT"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+    </LinearLayout>
+</ScrollView>
+

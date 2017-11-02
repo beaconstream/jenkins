@@ -1,0 +1,70 @@
+package com.travelur.travelconnect.home.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.travelur.R;
+import com.travelur.travelconnect.home.models.Photo;
+
+import java.util.List;
+
+/**
+ * Author by Abhijit.
+ */
+
+public class GridAdapter extends ArrayAdapter<Photo> {
+
+    private final LayoutInflater layoutInflater;
+    private List<Photo> items;
+
+    public GridAdapter(Context context, List<Photo> items) {
+        super(context, 0, items);
+       // setItems(items);
+        layoutInflater = LayoutInflater.from(context);
+    }
+
+    public GridAdapter(Context context) {
+        super(context, 0);
+        layoutInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Photo item = getItem(position);
+        View    v = layoutInflater.inflate( R.layout.photo_adapter_item, parent, false);
+        ImageView photo = (ImageView) v.findViewById(R.id.imageView);
+        Glide.with(getContext()).load(item.getUrl())
+                .thumbnail(0.5f)
+                .crossFade()
+                .placeholder(R.drawable.profile_placeholder)
+                //.error(R.drawable.error_icon)
+                //.bitmapTransform(new GlideCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(photo);
+        return v;
+    }
+
+    @Override public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override public int getItemViewType(int position) {
+        return position % 2 == 0 ? 1 : 0;
+    }
+
+    public void appendItems(List<Photo> newItems) {
+        addAll(newItems);
+        notifyDataSetChanged();
+    }
+
+    public void setItems(List<Photo> moreItems) {
+        clear();
+        appendItems(moreItems);
+    }
+}

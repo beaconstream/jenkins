@@ -1,0 +1,94 @@
+package com.travelur.travelconnect.vacationpackages;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.settings.settingtype.YourPreferences;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class Filters extends BaseFragment {
+
+    public static Filters newInstance() {
+        Filters fragment = new Filters();
+        return fragment;
+    }
+
+    private TextView duration;
+    private SeekBar seekBar;
+    private LinearLayout vacation_type_layout, budget_layout, destination_layout;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.vacationpackage_filter, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        duration = (TextView) view.findViewById(R.id.duration);
+        seekBar = (SeekBar) view.findViewById(R.id.seekbar);
+        vacation_type_layout = (LinearLayout)view.findViewById(R.id.vacation_type_layout);
+        budget_layout = (LinearLayout)view.findViewById(R.id.vacation_type_layout);
+        destination_layout = (LinearLayout)view.findViewById(R.id.vacation_type_layout);
+        // Initialize the textview with '0'.
+        AppConfig.vacation_type_layout = vacation_type_layout;
+        AppConfig.budget_layout = budget_layout;
+        AppConfig.destination_layout = destination_layout;
+        duration.setText("Days: " + seekBar.getProgress() + "/" + seekBar.getMax());
+
+        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+        volleyRequest.vacation_package_vactionType();
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                Toast.makeText(getContext(), "Changing Duration", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(getContext(), "Tracking duration", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                duration.setText("Days: " + progress + "/" + seekBar.getMax());
+                Toast.makeText(getContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+}

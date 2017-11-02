@@ -1,0 +1,516 @@
+package com.travelur.travelconnect.signedinhome;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.erikagtierrez.multiple_media_picker.Gallery;
+import com.travelur.R;
+import com.travelur.helper.BottomNavigationViewBehavior;
+import com.travelur.travelconnect.alerts.Alert;
+import com.travelur.travelconnect.apploading.StartupScreen;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseActivity;
+import com.travelur.helper.SQLiteHandler;
+import com.travelur.helper.SessionManager;
+import com.travelur.travelconnect.friends.Friends;
+import com.travelur.travelconnect.friends.YourFriends;
+import com.travelur.travelconnect.groups.GroupsFragment;
+import com.travelur.travelconnect.messages.Messages;
+import com.travelur.travelconnect.profile.ProfileFragment;
+import com.travelur.travelconnect.home.SignedInHome;
+import com.travelur.travelconnect.signedinhome.navigationtype.CancellationFragment;
+import com.travelur.travelconnect.signedinhome.navigationtype.PrivacyFragment;
+import com.travelur.travelconnect.signedinhome.navigationtype.TermsFragment;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.GlideCircleTransformation;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+/*
+ * @author by Abhijit.
+ */
+
+public class MainActivity extends BaseActivity implements NavigationDrawerFragment.DrawerListener, View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
+    NavigationDrawerFragment navigationDrawerFragment;
+    TextView layout_Title, custom_toolbar_menu_item;
+    //ImageView profile_icon;
+    Button sign_out;
+    Toolbar toolbar;
+    FragmentManager fragmentManaager;
+    FragmentTransaction trans;
+    Fragment newFragment;
+    DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private SearchView searchView;
+
+    private CoordinatorLayout coordinatorLayout;
+    // LogCat tag
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    // Display popup attached to the button as a position anchor
+    TextView groups, moreTextView_groups, destination, moreTextView_destination, rewards, moreTextView_rewards, alerts, moreTextView_alerts;
+
+    TextView shareIt_camera, shareItTextView_camera, shareIt_gallery, shareItTextView_gallery, shareIt_video, shareItTextView_video;
+
+    BottomNavigationView bottomNavigationView, bottomNavigationView_more, bottomNavigationView_trips;
+
+    //static final int REQUEST_TAKE_PHOTO = 1;
+
+    private Uri fileUri; // file url to store image/video
+
+    Fragment selectedFragment = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signed_in_home);
+        layout_Title = (TextView) findViewById(R.id.action_bar_title_1);
+        custom_toolbar_menu_item = (TextView) findViewById(R.id.custom_toolbar_menu_item);
+        //profile_icon = (ImageView) findViewById(R.id.profile_icon);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fragmentManaager=getSupportFragmentManager();
+        trans = fragmentManaager.beginTransaction();
+        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
+        sign_out = (Button) findViewById(R.id.sign_out);
+        intitialiseFirstFragment();
+        navigationDrawerFragment=(NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        navigationDrawerFragment.setUp(R.id.fragment_navigation_drawer,drawerLayout,toolbar);
+
+        sign_out.setOnClickListener(this);
+
+        toolbar.post(new Runnable() {
+            @Override
+            public void run() {
+                Drawable d = ResourcesCompat.getDrawable(getResources(), R.drawable.profile_pic_circular, null);
+                toolbar.setNavigationIcon(d);
+            }
+        });
+
+        //Check User Logged in Session then Display user details
+        if(session.isLoggedIn())
+        {
+            if(!session.isLoggedInFirstTime()){
+                session.setFirstTimeLoginStatus(true);
+            }
+            // Fetching user details from sqlite
+            HashMap<String, String> user = db.getUserDetails();
+
+            String status = user.get("status");
+            String user_id = user.get("user_id");
+            String first_name = user.get("first_name");
+            String last_name = user.get("last_name");
+
+            AppConfig.setUser_id(user_id);
+            // Displaying the user details on the screen
+            /*txtName.setText(name);
+            txtEmail.setText(email);*/
+        }else if(session.isGuestLoggedIn()){
+            if(!session.isLoggedInFirstTime()){
+                session.setFirstTimeLoginStatus(true);
+            }
+            // Fetching user details from sqlite
+            HashMap<String, String> user = db.getUserDetails();
+
+            String status = user.get("status");
+            String user_id = user.get("user_id");
+            String first_name = user.get("first_name");
+            String last_name = user.get("last_name");
+
+            AppConfig.setUser_id(user_id);
+        }
+
+        bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.navigation);
+        bottomNavigationView_more = (BottomNavigationView)
+                findViewById(R.id.navigation_more);
+        bottomNavigationView_trips = (BottomNavigationView)
+                findViewById(R.id.navigation_trips);
+
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationViewBehavior());
+        CoordinatorLayout.LayoutParams layoutParams_more = (CoordinatorLayout.LayoutParams) bottomNavigationView_more.getLayoutParams();
+        layoutParams_more.setBehavior(new BottomNavigationViewBehavior());
+        CoordinatorLayout.LayoutParams layoutParams_trips = (CoordinatorLayout.LayoutParams) bottomNavigationView_trips.getLayoutParams();
+        layoutParams_trips.setBehavior(new BottomNavigationViewBehavior());
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView_more.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView_trips.setOnNavigationItemSelectedListener(this);
+       /* bottomNavigationView.getMenu().findItem(R.id.action_item1).setIcon(
+                new IconDrawable(getApplicationContext(), FontAwesomeIcons.fa_home)
+                        .colorRes(R.color.vpi__bright_foreground_disabled_holo_dark)
+                        .actionBarSize());
+        bottomNavigationView.getMenu().findItem(R.id.action_item2).setIcon(
+                new IconDrawable(getApplicationContext(), FontAwesomeIcons.fa_users)
+                        .colorRes(R.color.vpi__bright_foreground_disabled_holo_dark)
+                        .actionBarSize());
+        bottomNavigationView.getMenu().findItem(R.id.action_item3).setIcon(
+                new IconDrawable(getApplicationContext(), FontAwesomeIcons.fa_comments)
+                        .colorRes(R.color.vpi__bright_foreground_disabled_holo_dark)
+                        .actionBarSize());
+        bottomNavigationView.getMenu().findItem(R.id.action_item4).setIcon(
+                new IconDrawable(getApplicationContext(), FontAwesomeIcons.fa_book)
+                        .colorRes(R.color.vpi__bright_foreground_disabled_holo_dark)
+                        .actionBarSize());
+        bottomNavigationView.getMenu().findItem(R.id.action_item5).setIcon(
+                new IconDrawable(getApplicationContext(), FontAwesomeIcons.fa_navicon)
+                        .colorRes(R.color.vpi__bright_foreground_disabled_holo_dark)
+                        .actionBarSize());*/
+/*
+        bottomNavigationView.setOnNavigationItemSelectedListener
+                (new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_item1:
+                                selectedFragment = SignedInHome.newInstance();
+                                intitialiseSelectedFragment(selectedFragment);
+                                layout_Title.setVisibility(View.GONE);
+                                break;
+                            case R.id.action_item2:
+                                //selectedFragment = Friends.newInstance();
+                                selectedFragment = YourFriends.newInstance();
+                                intitialiseSelectedFragment(selectedFragment);
+                                layout_Title.setVisibility(View.VISIBLE);
+                                layout_Title.setText(R.string.Friends_Title);
+                                layout_Title.setTypeface(font_Raleway_Light);
+                                break;
+                            case R.id.action_item3:
+                                selectedFragment = Messages.newInstance();
+                                intitialiseSelectedFragment(selectedFragment);
+                                layout_Title.setVisibility(View.VISIBLE);
+                                layout_Title.setText(R.string.Messages_Title);
+                                layout_Title.setTypeface(font_Raleway_Light);
+                                break;
+                            case R.id.action_item4:
+                                selectedFragment = Alert.newInstance();
+                                intitialiseSelectedFragment(selectedFragment);
+                                layout_Title.setVisibility(View.INVISIBLE);
+                                break;
+                            case R.id.action_item5:
+
+                                View morePopUp = displayPopupWindow(getCurrentFocus());
+                                groups = (TextView) morePopUp.findViewById(R.id.groups);
+                                moreTextView_groups = (TextView) morePopUp.findViewById(R.id.moreTextView_groups);
+                                destination = (TextView) morePopUp.findViewById(R.id.destinations);
+                                moreTextView_destination = (TextView) morePopUp.findViewById(R.id.moreTextView_destinations);
+                                rewards = (TextView) morePopUp.findViewById(R.id.rewards);
+                                moreTextView_rewards = (TextView) morePopUp.findViewById(R.id.moreTextView_rewards);
+                                notification = (TextView) morePopUp.findViewById(R.id.notification);
+                                moreTextView_alerts = (TextView) morePopUp.findViewById(R.id.moreTextView_alerts);
+
+                                groups.setTypeface(font);
+                                moreTextView_groups.setTypeface(font_Raleway_Light);
+                                destination.setTypeface(font);
+                                moreTextView_destination.setTypeface(font_Raleway_Light);
+                                rewards.setTypeface(font);
+                                moreTextView_rewards.setTypeface(font_Raleway_Light);
+                                notification.setTypeface(font);
+                                moreTextView_alerts.setTypeface(font_Raleway_Light);
+
+                                break;
+                            *//*case R.id.action_item6:
+                                selectedFragment = Alert.newInstance();
+                                break;*//*
+
+                        }
+                        // Manually checking internet connection
+                        checkConnection();
+                        return true;
+                    }
+                });*/
+
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //transaction.setCustomAnimations(R.anim.slide_down, R.anim.slide_up);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.frame, SignedInHome.newInstance());
+        transaction.commit();
+
+        //Used to select an item programmatically
+        //bottomNavigationView.getMenu().getItem(2).setChecked(true);
+
+    }
+
+    public void intitialiseSelectedFragment(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.frame, selectedFragment);
+        transaction.commit();
+
+    }
+    public void intitialiseFirstFragment(){
+
+        newFragment = new SignedInHome();
+        trans.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        trans.replace(R.id.frame, newFragment, newFragment.toString());
+        trans.commit();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_item1:
+                checkBottomNavigationView();
+                selectedFragment = SignedInHome.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setVisibility(View.GONE);
+                break;
+            case R.id.action_item2:
+                //selectedFragment = Friends.newInstance();
+                /*selectedFragment = YourFriends.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setVisibility(View.VISIBLE);
+                layout_Title.setText(R.string.Friends_Title);
+                layout_Title.setTypeface(font_Raleway_Light);*/
+                if(bottomNavigationView_more.isShown())
+                {
+                    bottomNavigationView_more.setVisibility(View.GONE);
+                    bottomNavigationView_trips.setVisibility(View.VISIBLE);
+                }else{
+                    bottomNavigationView_trips.setVisibility(View.VISIBLE);
+                }
+
+
+                break;
+            case R.id.action_item3:
+                checkBottomNavigationView();
+                selectedFragment = Messages.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setVisibility(View.VISIBLE);
+                layout_Title.setText(R.string.Messages_Title);
+                layout_Title.setTypeface(font_Raleway_Light);
+                break;
+            case R.id.action_item4:
+                checkBottomNavigationView();
+                selectedFragment = Alert.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.action_item5:
+               /* View morePopUp = displayPopupWindow(getCurrentFocus());
+                groups = (TextView) morePopUp.findViewById(R.id.groups);
+                moreTextView_groups = (TextView) morePopUp.findViewById(R.id.moreTextView_groups);
+                destination = (TextView) morePopUp.findViewById(R.id.destinations);
+                moreTextView_destination = (TextView) morePopUp.findViewById(R.id.moreTextView_destinations);
+                rewards = (TextView) morePopUp.findViewById(R.id.rewards);
+                moreTextView_rewards = (TextView) morePopUp.findViewById(R.id.moreTextView_rewards);
+                notification = (TextView) morePopUp.findViewById(R.id.notification);
+                moreTextView_alerts = (TextView) morePopUp.findViewById(R.id.moreTextView_alerts);
+
+                groups.setTypeface(font);
+                moreTextView_groups.setTypeface(font_Raleway_Light);
+                destination.setTypeface(font);
+                moreTextView_destination.setTypeface(font_Raleway_Light);
+                rewards.setTypeface(font);
+                moreTextView_rewards.setTypeface(font_Raleway_Light);
+                notification.setTypeface(font);
+                moreTextView_alerts.setTypeface(font_Raleway_Light);*/
+                if(bottomNavigationView_trips.isShown())
+                {
+                    bottomNavigationView_trips.setVisibility(View.GONE);
+                    bottomNavigationView_more.setVisibility(View.VISIBLE);
+                }else{
+                    bottomNavigationView_more.setVisibility(View.VISIBLE);
+                }
+                break;
+                            /*case R.id.action_item6:
+                                selectedFragment = Alert.newInstance();
+                                break;*/
+
+            case R.id.action_item6:
+                selectedFragment = YourFriends.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setText("Your Friends");
+                break;
+            case R.id.action_item7:
+                selectedFragment = GroupsFragment.newInstance();
+                intitialiseSelectedFragment(selectedFragment);
+                layout_Title.setText("Your Groups");
+                break;
+
+
+        }
+
+        // Manually checking internet connection
+        checkConnection();
+        return true;
+    }
+    public void checkBottomNavigationView(){
+        if(bottomNavigationView_trips.isShown() || bottomNavigationView_more.isShown())
+        {
+            bottomNavigationView_trips.setVisibility(View.GONE);
+            bottomNavigationView_more.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onDrawerItemClick(int id) {
+        switch (id){
+            case R.id.profile_layout:
+                newFragment=new ProfileFragment();
+
+                fragmentManaager=getSupportFragmentManager();
+                trans = fragmentManaager.beginTransaction();
+                trans.replace(R.id.frame, newFragment, newFragment.toString());
+                trans.addToBackStack("my_fragment");
+                trans.commit();
+                break;
+            case R.id.help:
+                selectedFragment = PrivacyFragment.newInstance();
+                intitialiseFragment(selectedFragment);
+                break;
+            case R.id.terms_of_use:
+                selectedFragment = TermsFragment.newInstance();
+                intitialiseFragment(selectedFragment);
+                break;
+            case R.id.cancellation:
+                selectedFragment = CancellationFragment.newInstance();
+                intitialiseFragment(selectedFragment);
+                break;
+        }
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case  R.id.sign_out:
+                if(session.isLoggedIn() || session.isGuestLoggedIn()){
+                    logoutUser();
+                }
+                break;
+            case R.id.action_settings:
+                break;
+        }
+    }
+
+    protected void logoutUser() {
+        session.setLogin(false);
+        session.setGuestLogin(false);
+
+        db.deleteUsers();
+
+        // Launching the StartupScreen activity with login page or signin page
+        Intent intent = new Intent(this, StartupScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /* @Override
+     public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+         super.onPostCreate(savedInstanceState, persistentState);
+         mDrawerToggle.syncState();
+     }*/
+    // Display popup attached to the button as a position anchor
+    private View displayPopupWindow(View anchorView) {
+        PopupWindow popup = new PopupWindow(MainActivity.this);
+        View layout = LayoutInflater.from(MainActivity.this).inflate(R.layout.signinhome_more_popupcontent, null);
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        // Show anchored to button
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        //popup.showAsDropDown(anchorView);
+        popup.setAnimationStyle(R.anim.popup_anim);
+        popup.showAtLocation(layout, Gravity.BOTTOM, 0, 250);
+
+
+        View container = (View) popup.getContentView().getParent().getParent();
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.8f;
+        wm.updateViewLayout(container, p);
+
+        return layout;
+    }
+
+    /**
+     * Here we store the file url as it will be null after returning from camera
+     * app
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save file url in bundle as it will be null on screen orientation
+        // changes
+        outState.putParcelable("file_uri", fileUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // get the file url
+        fileUri = savedInstanceState.getParcelable("file_uri");
+    }
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+}

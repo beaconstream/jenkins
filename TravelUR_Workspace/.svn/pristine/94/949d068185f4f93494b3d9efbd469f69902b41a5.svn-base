@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|bottom">
+    <ImageView
+        android:layout_width="@dimen/profile_pic_width_S"
+        android:layout_height="@dimen/profile_pic_height_S"
+        android:layout_gravity="end"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@drawable/ic_action_close_grey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_layout_margin_XL"
+            android:gravity="center"
+            android:textColor="@color/Gray_Wolf"
+            android:text="@string/successfully_updated"
+            android:textSize="@dimen/textView_size_L" />
+
+        <ImageView
+            android:layout_width="@dimen/profile_pic_width"
+            android:layout_height="@dimen/profile_pic_height"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+            android:background="@drawable/green_tick" />
+
+        <ImageView
+            android:layout_width="@dimen/profile_pic_width_XXL"
+            android:layout_height="@dimen/profile_pic_height_XXL"
+            android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+            android:background="@drawable/travel_bag" />
+    </LinearLayout>
+</LinearLayout>

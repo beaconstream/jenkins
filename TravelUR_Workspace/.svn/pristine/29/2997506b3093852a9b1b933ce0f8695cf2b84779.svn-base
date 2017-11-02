@@ -1,0 +1,117 @@
+package com.travelur.friends;
+
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.travelur.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Author by Abhijit.
+ */
+
+public class YourFriends extends Fragment {
+
+    public static YourFriends newInstance() {
+        YourFriends fragment = new YourFriends();
+        return fragment;
+    }
+
+    TextView next,invite_friends;
+    ListView frinds_list;
+    FriendsListAdapter adapter;
+    List<String> arrayList= new ArrayList<>();
+    SearchView search;
+    TextView layout_Title;
+
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
+    ArrayList<String> profile_Name;
+    ArrayList<String> profile_Place;
+    ArrayList<Integer> profile_Image;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        profile_Name = new ArrayList<>(Arrays.asList("Cheesy...", "Crispy... ", "Fizzy...", "Cool...", "Softy...", "Fruity...", "Fresh...", "Sticky..."));
+        profile_Place = new ArrayList<>(Arrays.asList("China...", "Zapan... ", "Finland...", "Australia...", "South America...", "France...", "England...", "Soth Africa..."));
+        profile_Image = new ArrayList<>(Arrays.asList(R.drawable.images, R.drawable.images, R.drawable.images, R.drawable.images, R.drawable.images, R.drawable.images, R.drawable.images, R.drawable.images));
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.your_friends, null, false);
+        setHasOptionsMenu(true);//to activate search option in Menu
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        search = (SearchView) view.findViewById(R.id.search);
+        layout_Title = (TextView) getActivity().findViewById(R.id.action_bar_title_1);
+        layout_Title.setText(R.string.text_your_friends);
+        search.setQueryHint("Search messages...");
+
+        // Calling the RecyclerView
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        // The number of Columns
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new YourFriendsListAdapter(getContext(), profile_Name, profile_Place, profile_Image);
+        mRecyclerView.setAdapter(mAdapter);
+        frinds_list = (ListView) view.findViewById(R.id.list);
+        adapter = new FriendsListAdapter(getActivity(),arrayList);
+        frinds_list.setAdapter(adapter);
+        frinds_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main2, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+
+    }
+}

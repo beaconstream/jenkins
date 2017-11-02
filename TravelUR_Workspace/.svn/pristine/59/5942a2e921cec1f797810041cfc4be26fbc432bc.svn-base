@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/rejectBtn"
+            android:layout_width="@dimen/profile_pic_width"
+            android:layout_height="@dimen/profile_pic_height"
+            android:background="@drawable/ic_action_blue_checkmark_round"/>
+        <ImageButton
+            android:id="@+id/acceptBtn"
+            android:layout_width="@dimen/profile_pic_width_M"
+            android:layout_height="@dimen/profile_pic_height_M"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/ic_action_close_grey"/>
+    </LinearLayout>
+    <com.mindorks.placeholderview.SwipePlaceHolderView
+        android:id="@+id/swipeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

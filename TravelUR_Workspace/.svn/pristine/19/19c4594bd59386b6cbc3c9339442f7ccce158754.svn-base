@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.travelur">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:name=".utility.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_icon"
+        android:label="TravelUR"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.travelur.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".travelconnect.apploading.SplashScreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.travelur.com/setPassword” -->
+                <data
+                    android:host="travelurdev001.azurewebsites.net"
+                    android:pathPrefix="/general/travelur_set_password"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+                <!-- Accepts URIs that begin with "travelur://setPassword” -->
+                <data
+                    android:host="travelur_set_password"
+                    android:scheme="travelur" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".travelconnect.apploading.StartupScreen"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".travelconnect.flights.FlightList"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".travelconnect.hotels.HotelList"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".travelconnect.messages.ChatBox"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".travelconnect.signedinhome.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".travelconnect.profile.ProfileActivity" />
+        <activity android:name=".travelconnect.rewards.RewardsActivity" />
+        <activity android:name=".travelconnect.vacationpackages.moredetails.MoreDetailsActivity"></activity>
+        <activity android:name=".travelconnect.gallery.MediaActivity"></activity>
+    </application>
+
+</manifest>

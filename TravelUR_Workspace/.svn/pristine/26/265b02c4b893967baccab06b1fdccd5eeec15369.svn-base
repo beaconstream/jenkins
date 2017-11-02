@@ -1,0 +1,80 @@
+package com.travelur.travelconnect.signedinhome.navigationtype;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import com.travelur.R;
+import com.travelur.general.BaseFragment;
+import com.travelur.utility.AppConfig;
+
+public class PrivacyFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    private WebView webView;
+
+    public static PrivacyFragment newInstance() {
+        PrivacyFragment fragment = new PrivacyFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_privacy, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        webView = (WebView) view.findViewById(R.id.privacy_webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        });
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent,R.color.Ash_Gray,R.color.colorPrimary);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                //Calling method to get data
+                webView.loadUrl(AppConfig.PrivacyPolicy);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+    }
+
+    @Override
+    public void onRefresh() {
+        //Calling method to get data
+        swipeRefreshLayout.setRefreshing(true);
+        webView.loadUrl(AppConfig.PrivacyPolicy);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+}

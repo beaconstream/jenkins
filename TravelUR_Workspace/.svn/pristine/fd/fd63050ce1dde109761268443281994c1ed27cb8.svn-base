@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient"
+    android:gravity="center_horizontal"
+    >
+
+    <TextView
+        android:text="Passengers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView13"
+        android:textSize="24sp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:text="Adults(12 or up)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_of_adults"
+        android:textColor="#ffa64d"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="-"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"/>
+
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:ems="10"
+            android:text="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"/>
+
+        <Button
+            android:text="+"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"
+            />
+    </LinearLayout>
+    <TextView
+        android:text="Children(2 - 11)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/number_of_childern"
+        android:textColor="#ffa64d"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="-"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"/>
+
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:ems="10"
+            android:text="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"/>
+
+        <Button
+            android:text="+"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"
+            />
+    </LinearLayout>
+    <TextView
+        android:text="Infants(less than 2)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView14"
+        android:textColor="#ffa64d"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="-"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button4"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"/>
+
+        <EditText
+            android:layout_width="55dp"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:ems="10"
+            android:text="1"
+            android:gravity="center"
+            android:id="@+id/editText3"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"/>
+
+        <Button
+            android:text="+"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button6"
+            android:textColor="@android:color/white"
+            android:background="#0088cc"
+            android:textSize="48sp"
+            />
+    </LinearLayout>
+    <TextView
+        android:text="Class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"/>
+    <TextView
+        android:text="Select one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="4dp"
+        android:textColor="@android:color/white"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:textColor="@android:color/white">
+    <RadioButton
+        android:text="Any"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/any"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:checked="true"
+        android:buttonTint="@android:color/white"
+        />
+
+    <RadioButton
+        android:text="Economy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/economy"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:buttonTint="@android:color/white"
+        />
+    <RadioButton
+        android:text="Buisness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buisness"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:buttonTint="@android:color/white"/>
+
+    <RadioButton
+        android:text="First"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_class"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:buttonTint="@android:color/white"/>
+
+</LinearLayout>
+</LinearLayout>

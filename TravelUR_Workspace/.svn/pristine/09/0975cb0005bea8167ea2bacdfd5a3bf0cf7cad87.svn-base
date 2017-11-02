@@ -1,0 +1,153 @@
+package com.travelur.travelconnect.videos;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.gallery.MediaActivity;
+import com.travelur.travelconnect.gallery.model.Media;
+import com.travelur.travelconnect.photos.adapters.DetailPhoto;
+import com.travelur.travelconnect.profile.ProfileActivity;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE_VIDEOS;
+import static com.travelur.utility.AppConfig.PHOTO_LIST;
+import static com.travelur.utility.AppConfig.REQUEST_CODE_PHOTOS;
+import static com.travelur.utility.AppConfig.REQUEST_CODE_VIDEOS;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class Video extends BaseFragment implements View.OnClickListener{
+
+    private ArrayList<String> selectionResult = new ArrayList<>();
+    public static final String TAG = ProfileActivity.class.getSimpleName();
+    private JSONObject jsonObject = null;
+
+    public static Video newInstance() {
+        Video fragment = new Video();
+        return fragment;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.no_videos, null, false);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        title.setText("Your Videos");
+        custom_toolbar_menu_item = (TextView) view.findViewById(R.id.custom_toolbar_menu_item);
+        custom_toolbar_menu_item.setText("");
+
+        close.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.custom_toolbar_menu_item:
+                // Checking camera availability
+                if (!isDeviceSupportCamera()) {
+                    Toast.makeText(getContext(),
+                            "Sorry! Your device doesn't support camera",
+                            Toast.LENGTH_LONG).show();
+                    // will close the app if the device does't have camera
+                    getActivity().finish();
+                }else{
+                    //recordVideo();
+                    Intent intent = new Intent(getContext(), MediaActivity.class);
+                    intent.putExtra(MEDIA_TYPE, MEDIA_TYPE_VIDEOS);
+                    startActivityForResult(intent, REQUEST_CODE_VIDEOS);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(!selectionResult.isEmpty()){
+            selectionResult.clear();
+        }
+        switch (requestCode) {
+
+            case REQUEST_CODE_PHOTOS:
+                if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<Media> mediaArrayList = data.getParcelableArrayListExtra(PHOTO_LIST);
+                    Log.d(TAG, "number of selected images = " + mediaArrayList.size());
+                    for(int i = 0; i<mediaArrayList.size(); i++)
+                        selectionResult.add(mediaArrayList.get(i).path);
+                }
+                JSONObject jsonObject = new JSONObject();
+                //JSONArray jsonArray =  new JSONArray(IMAGEPTHLIST);
+                JSONArray jsonArray =  new JSONArray(selectionResult);
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put(AppConfig.KEY_USER_ID, AppConfig.getUser_id());
+                        jsonObject.put(AppConfig.KEY_IMAGEPATH, jsonArray);
+
+
+                        jsonObject.put(AppConfig.KEY_GROUP_ID, "1");
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.signedInHome_Profile_UploadVideos(jsonObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+        }
+    }
+    /**
+     * Checking device has camera hardware or not
+     * */
+    private boolean isDeviceSupportCamera() {
+        if (getContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA)) {
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+}

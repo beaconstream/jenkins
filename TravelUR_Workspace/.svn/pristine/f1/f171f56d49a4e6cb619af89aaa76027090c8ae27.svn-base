@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/toolbar_comment"
+        android:background="@color/colorPrimary"
+        android:layout_width="fill_parent"
+        android:layout_height="?actionBarSize"
+        >
+        <!-- android:background="?attr/selectableItemBackgroundBorderless" will cause this Custom View to make ripple effect -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="2.0dip"
+            android:paddingLeft="4.0dip"
+            android:paddingRight="4.0dip"
+            android:paddingTop="0.0dip" >
+
+            <TextView
+                android:id="@+id/write_post_close"
+                android:layout_weight="0.2"
+                android:textSize="@dimen/textView_size_header"
+                android:gravity="center"
+                android:textColor="@color/textView_color"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/shareIt_action_bar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/your_comment"
+                android:textColor="@color/White"
+                android:textSize="@dimen/textView_size_header" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/commentsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_comment"
+        android:layout_above="@+id/comment_section"
+        android:layout_marginBottom="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/comment_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        >
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/writeComment"
+            android:hint="Add a comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="2"
+            android:focusable="true"
+            android:layout_marginLeft="2dp"
+            android:textSize="12sp"
+            android:textColor="@color/Gray"
+            android:background="#00000000"/>
+        <TextView
+            android:gravity="center|right"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/Gray_Cloud"
+            android:text="Post"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

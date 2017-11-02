@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/custom_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/duration_layout"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="@dimen/textView_size"
+                    android:textColor="@color/Gray_Wolf"
+                    android:text="@string/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <SeekBar
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="12"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:text="@string/Vacation_type"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/vacation_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:text="@string/destinations"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/budget_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:text="@string/moreTextView_destinations"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/destination_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <Button
+            android:text="@string/clear"
+            android:background="@color/White"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/Gray_Goose"
+            android:layout_width="@dimen/view_height_s"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="@string/apply"
+            android:background="@color/White"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

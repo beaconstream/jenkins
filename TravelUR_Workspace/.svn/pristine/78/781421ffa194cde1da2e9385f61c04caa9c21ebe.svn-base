@@ -1,0 +1,72 @@
+package com.travelur.travelconnect.photos.adapters;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.travelur.R;
+import com.travelur.travelconnect.photos.models.PhotoDataModel;
+
+/**
+ * @author  by Abhijit.
+ */
+
+public class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder>  {
+
+    @Override
+    public ImageGalleryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View photoView = inflater.inflate(R.layout.custom_item_media_layout, parent, false);
+        ImageGalleryAdapter.MyViewHolder viewHolder = new ImageGalleryAdapter.MyViewHolder(photoView);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ImageGalleryAdapter.MyViewHolder holder, int position) {
+
+        PhotoDataModel spacePhoto = photos[position];
+        ImageView imageView = holder.mPhotoImageView;
+    }
+
+    @Override
+    public int getItemCount() {
+        return (photos.length);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public ImageView mPhotoImageView;
+
+        public MyViewHolder(View itemView) {
+
+            super(itemView);
+            mPhotoImageView = (ImageView) itemView.findViewById(R.id.iv_photo);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int position = getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION) {
+                PhotoDataModel spacePhoto = photos[position];
+               /* Intent intent = new Intent(mContext, SpacePhotoActivity.class);
+                intent.putExtra(SpacePhotoActivity.EXTRA_SPACE_PHOTO, spacePhoto);
+                startActivity(intent);*/
+            }
+        }
+    }
+
+    private PhotoDataModel[] photos;
+    private Context mContext;
+
+    public ImageGalleryAdapter(Context context, PhotoDataModel[] spacePhotos) {
+        mContext = context;
+        photos = spacePhotos;
+    }
+}

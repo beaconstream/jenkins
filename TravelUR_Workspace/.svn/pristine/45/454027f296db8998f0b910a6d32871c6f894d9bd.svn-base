@@ -1,0 +1,65 @@
+package com.travelur.travelconnect.videos;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.photos.adapters.DetailPhoto;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class Video extends BaseFragment implements View.OnClickListener{
+
+    public static Video newInstance() {
+        Video fragment = new Video();
+        return fragment;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.no_videos, null, false);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        title.setText("Your Videos");
+        custom_toolbar_menu_item = (TextView) view.findViewById(R.id.custom_toolbar_menu_item);
+        custom_toolbar_menu_item.setText("");
+
+        close.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.custom_toolbar_menu_item:
+
+                break;
+        }
+    }
+}

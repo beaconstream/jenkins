@@ -1,0 +1,88 @@
+package com.travelur.travelconnect.friends;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.travelur.R;
+import com.travelur.utility.GlideCircleTransformation;
+
+import java.util.ArrayList;
+
+/**
+ * Author by Abhijit.
+ */
+
+public class YourFriendsSuggestionListAdapter extends RecyclerView.Adapter<YourFriendsSuggestionListAdapter.ViewHolder> {
+
+    ArrayList<String> list_Name;
+    ArrayList<String> list_Place;
+    ArrayList<Integer> list_Image;
+    Context context;
+
+    public YourFriendsSuggestionListAdapter(Context context, ArrayList<String> list_Name, ArrayList<String> list_Place, ArrayList<Integer> list_Image) {
+        super();
+        this.context = context;
+        this.list_Name = list_Name;
+        this.list_Place = list_Place;
+        this.list_Image = list_Image;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.your_friends_vertical_suggestion_carditems, viewGroup, false);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        viewHolder.profile_name.setText(list_Name.get(i));
+        viewHolder.profile_place.setText(list_Place.get(i));
+        Glide.with(context).load(list_Image.get(i))
+                .thumbnail(0.5f)
+                .crossFade()
+                .placeholder(R.drawable.profile_placeholder)
+                //.error(R.drawable.error_icon)
+                .bitmapTransform(new GlideCircleTransformation(context))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(viewHolder.friends_profile_pic);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return list_Name.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+
+        public ImageView friends_profile_pic;
+        public TextView profile_name, profile_place;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            friends_profile_pic = (ImageView) itemView.findViewById(R.id.profile_pic);
+            profile_name = (TextView) itemView.findViewById(R.id.profile_name);
+            profile_place = (TextView) itemView.findViewById(R.id.profile_place);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+    }
+
+}

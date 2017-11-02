@@ -1,0 +1,212 @@
+package com.travelur.travelconnect.settings.settingtype;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.settings.adapters.QuestionListAdapter;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListCheckBoxDataModel;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class YourPreferences extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener{
+
+    private LinearLayout rl;
+    private RadioGroup rg;
+    private RadioButton rb1;
+    private RadioButton rb2;
+    private RadioButton rb3;
+    private int pos;
+    private int pos1;
+    private JSONObject jsonObject;
+
+    private ArrayList<QuestionListCheckBoxDataModel> dataModels;
+    private ListView listView;
+    private QuestionListAdapter adapter;
+    private View lastSelectedItem;
+
+    public static YourPreferences newInstance() {
+        YourPreferences fragment = new YourPreferences();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.your_prefernces, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        custom_toolbar_menu_item = (TextView) view.findViewById(R.id.custom_toolbar_menu_item);
+        custom_toolbar_menu_item.setText("Reset");
+        title.setText("Your Preferences ");
+        /*rl =(LinearLayout) view.findViewById(R.id.question_layout);
+        rg = new RadioGroup(getContext());
+        rb1=new RadioButton(getContext());
+        rb2=new RadioButton(getContext());
+        rb3=new RadioButton(getContext());
+
+        rb1.setText("Radio 1");
+        rb2.setText("Radio 2");
+        rb3.setText("Radio 3");
+
+        rg.addView(rb1);
+        rg.addView(rb2);
+        rg.addView(rb3);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
+                ((int) LinearLayout.LayoutParams.WRAP_CONTENT, (int) LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        params.leftMargin = 170;
+        params.topMargin = 180;
+
+        rg.setLayoutParams(params);
+
+        rl.addView(rg);
+
+
+        rb1.setChecked(true);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // TODO Auto-generated method stub
+
+                //You can use any one of method...
+
+                // Method 1
+                pos=rg.indexOfChild(getView().findViewById(checkedId));
+
+                //Method 2
+                pos1=rg.indexOfChild(getView().findViewById(rg.getCheckedRadioButtonId()));
+
+                switch (pos)
+                {
+                    case 0 :
+                        Toast.makeText(getContext(), "You have Clicked Radio 1",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1 :
+                        Toast.makeText(getContext(), "You have Clicked Radio 2",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2 :
+                        Toast.makeText(getContext(), "You have Clicked Radio 3",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    default :
+                        //The default selection is RadioButton 1
+                        Toast.makeText(getContext(),"You have Clicked Radio 1" ,
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });*/
+        listView = (ListView) view.findViewById(R.id.listView);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+
+        dataModels = new ArrayList();
+
+        dataModels.add(new QuestionListCheckBoxDataModel("Apple Pie", false));
+        dataModels.add(new QuestionListCheckBoxDataModel("Banana Bread", false));
+        dataModels.add(new QuestionListCheckBoxDataModel("Cupcake", false));
+        dataModels.add(new QuestionListCheckBoxDataModel("Donut", true));
+
+        adapter = new QuestionListAdapter(dataModels, getContext());
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+
+                QuestionListCheckBoxDataModel dataModel= dataModels.get(position);
+                dataModel.checked = !dataModel.checked;
+                adapter.notifyDataSetChanged();
+
+                //toggleBackgroundItem(view);
+
+            }
+        });
+
+        close.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+    }
+    private void refreshContent() {
+        swipeRefreshLayout.setRefreshing(true);
+        jsonObject = new JSONObject();
+        try {
+            if(null!= AppConfig.getUser_id())
+            {
+                jsonObject.put("user_id", AppConfig.getUser_id());
+                VolleyRequest volleyRequest = new VolleyRequest(getActivity().getApplicationContext());
+                volleyRequest.settings_Your_Prefernces(jsonObject, adapter, swipeRefreshLayout);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    //Define the folowing method:
+    private void toggleBackgroundItem(View view) {
+        if (lastSelectedItem != null) {
+            lastSelectedItem.setBackgroundColor(Color.TRANSPARENT);
+            lastSelectedItem = null;
+        }else{
+            view.setBackgroundColor(getResources().getColor(R.color.textView_color));
+            lastSelectedItem = view;
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+        }
+    }
+}

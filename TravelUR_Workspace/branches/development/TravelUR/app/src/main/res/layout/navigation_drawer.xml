@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:overScrollMode="always"
+    android:layout_margin="@dimen/activity_layout_margin_VS"
+    android:scrollbars="none">
+    <!--android:background="@drawable/orange_gradient"-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin_L"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/navigation_profile_pic"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="8dp" />
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:id="@+id/profile_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                    android:gravity="center"
+                    android:text="Craig Bachman"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/textView_size_L"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                    android:gravity="center"
+                    android:text="@string/navigationText_profile"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/textView_size" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/profile_pic_width_S"
+                android:layout_height="@dimen/profile_pic_height_S"
+                android:gravity="center"
+                android:background="@drawable/ic_action_close"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/settings_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:background="@drawable/ic_action_settings"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_settings"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/trip_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/trip_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:background="@drawable/ic_action_yourtrips"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_trips"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rewar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:background="@drawable/ic_action_rewards"
+                android:id="@+id/reward_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_rewards"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/flight_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/flight_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:background="@drawable/ic_action_flights"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_flights"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hotel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/hotel_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:background="@drawable/ic_action_hotels"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_hotels"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bus_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/bus_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:background="@drawable/ic_action_buses"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_buses"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vacation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/vacation_icon"
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:background="@drawable/ic_action_vacationpk"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_S"
+                android:gravity="center"
+                android:text="@string/navigationText_vacationPk"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textView_size" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/navigationText_HS"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textView_size_M" />
+
+        <TextView
+            android:id="@+id/terms_of_use"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/navigationText_TOS"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textView_size_M" />
+
+        <TextView
+            android:id="@+id/cancellation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/navigationText_cancel"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textView_size_M" />
+
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/signout_button_round_corner"
+            android:layout_marginTop="@dimen/activity_vertical_margin_XL"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/navigationButton_signOut"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/textView_size_M" />
+    </LinearLayout>
+</ScrollView>
+

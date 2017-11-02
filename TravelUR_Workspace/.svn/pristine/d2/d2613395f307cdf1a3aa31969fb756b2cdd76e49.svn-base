@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@color/White"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/activity_layout_margin_VS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_action_close_grey"/>
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:text="@string/get_best_deals"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/textView_size_M"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:background="@color/Gray_Goose"
+            />
+        <LinearLayout
+            android:layout_margin="@dimen/activity_layout_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            <TextView
+                android:text="@string/phone"
+                android:textColor="@color/White"
+                android:textSize="@dimen/textView_size_M"
+                android:gravity="center"
+                android:layout_width="@dimen/profile_pic_width_S"
+                android:layout_height="@dimen/profile_pic_height_S"
+                android:background="@drawable/rounded_textview"/>
+            <TextView
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="@string/no"
+                android:textColor="@color/textView_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:background="@color/Gray_Goose"
+            />
+        <TextView
+            android:layout_margin="@dimen/activity_layout_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/customized_vacationpackage"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_item10"
+        android:icon="@drawable/ic_action_vacationpk"
+        android:title="@string/item_10"/>
+    <item
+        android:id="@+id/action_item11"
+        android:icon="@drawable/ic_action_flights"
+        android:title="@string/item_11"/>
+    <item
+        android:id="@+id/action_item12"
+        android:icon="@drawable/ic_action_hotels"
+        android:title="@string/item_12"/>
+
+    <item
+        android:id="@+id/action_item13"
+        android:icon="@drawable/ic_action_buses"
+        android:title="@string/item_13"/>
+
+</menu>

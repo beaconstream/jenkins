@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signed_in_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.travelur.Signed_In_Home.SignedInHome">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#999999"
+        android:layout_marginTop="16dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/whats_on"
+        android:paddingLeft="16dp"
+        android:textSize="20sp"
+        android:id="@+id/write_post"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_weight="0.2"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/camera"
+            android:paddingRight="16dp"
+            android:gravity="right|center"
+            android:id="@+id/camera"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:layout_weight="0.8"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#999999"
+        android:layout_marginBottom="16dp"
+        />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:background="@android:color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Craig Bachman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView15"
+            android:textSize="20sp"
+            android:layout_toRightOf="@+id/profile_pic"
+            android:textColor="#52c8f1"
+            android:layout_marginLeft="8dp" />
+
+        <TextView
+            android:text="@string/somewhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/somewhere"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView15"
+            android:layout_toRightOf="@+id/profile_pic"
+            android:textColor="#1f6494"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.07" />
+        <TextView
+            android:text="Today at 12:00pm IST | Shared to public"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/somewhere"
+            android:layout_toRightOf="@+id/profile_pic"
+            android:textColor="#999999"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.07" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/profl_pic"
+            android:id="@+id/profile_pic"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_body"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/images"
+        android:scaleType="fitXY"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/imageView4" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#999999"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:text="25"
+            android:gravity="center"
+            android:background="@drawable/circle"
+            android:id="@+id/like_num"
+            android:textColor="@android:color/holo_red_light" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:textSize="24sp"
+            android:text="@string/like"
+            android:id="@+id/like"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_marginRight="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:text="25"
+            android:gravity="center"
+            android:background="@drawable/circle"
+            android:id="@+id/comment_num"
+            android:textColor="@android:color/holo_red_light" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comment"
+            android:id="@+id/comment"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="24sp"
+            android:layout_marginLeft="4dp"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#999999"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="20sp"
+            android:text="@string/like_filled"
+            android:id="@+id/like_filled"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comment_filled"
+            android:textSize="20sp"
+            android:id="@+id/comment_filled"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+            android:textSize="20sp"
+            android:id="@+id/share"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

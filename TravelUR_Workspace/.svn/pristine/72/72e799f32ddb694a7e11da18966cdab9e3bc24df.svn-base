@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/White">
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="Gallery"
+                android:textColor="@color/textView_color"
+                android:textSize="@dimen/textView_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="40dp"
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_bar"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_data_available" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

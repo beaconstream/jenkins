@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "362879355147",
+    "firebase_url": "https://travelur-92690.firebaseio.com",
+    "project_id": "travelur-92690",
+    "storage_bucket": "travelur-92690.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362879355147:android:855986812173f206",
+        "android_client_info": {
+          "package_name": "com.travelur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362879355147-cqqki25ng7hed3gbkng6dbug2jau6cbf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travelur",
+            "certificate_hash": "cc64969d2684e4e9277b97e758f743e985d42444"
+          }
+        },
+        {
+          "client_id": "362879355147-11m3j98r11e4r91v4n1ld4l80hgbvi98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACSHwpY7rJlp2cBjhiw2YHXgMnr2_hA64"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362879355147-11m3j98r11e4r91v4n1ld4l80hgbvi98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

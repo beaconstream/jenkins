@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/custom_toolbar"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_photo"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="@dimen/textView_size"
+                android:textStyle="bold"
+                android:layout_margin="@dimen/activity_layout_margin"/>
+            <ImageView
+                android:layout_width="@dimen/profile_pic_width_L"
+                android:layout_height="@dimen/profile_pic_height_L" />
+            <TextView
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change"
+                android:textColor="@color/textView_color"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:id="@+id/input_layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_layout_margin"
+                        android:ems="10"
+                        android:hint="@string/textView_desc_firstName"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                    <requestFocus />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:id="@+id/input_layout_lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/lastname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_layout_margin"
+                        android:ems="10"
+                        android:hint="@string/textView_desc_LastName"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                    <requestFocus />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:id="@+id/input_layout_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_layout_margin"
+                        android:ems="10"
+                        android:hint="@string/textView_desc_about"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                    <requestFocus />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:id="@+id/input_layout_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_layout_margin"
+                        android:ems="10"
+                        android:hint="@string/textView_desc_City_District"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                    <requestFocus />
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:id="@+id/input_layout_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_layout_margin"
+                        android:ems="10"
+                        android:hint="@string/textView_desc_Country"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+                    <requestFocus />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

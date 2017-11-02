@@ -1,0 +1,403 @@
+package com.travelur.travelconnect.settings.settingtype;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.gallery.MediaActivity;
+import com.travelur.travelconnect.gallery.model.Media;
+import com.travelur.travelconnect.profile.ProfileActivity;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.GlideCircleTransformation;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE_PHOTOS;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE_PHOTOS_SINGLE_SELECTION;
+import static com.travelur.utility.AppConfig.PHOTO_LIST;
+import static com.travelur.utility.AppConfig.REQUEST_CODE_PHOTOS;
+import static com.travelur.utility.AppConfig.SINGLE_PHOTO_LIST;
+import static com.travelur.utility.AppConfig.VIDEO_EXTRA;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class AccountSettings extends BaseFragment implements View.OnClickListener , AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener{
+
+    private ImageView profile_pic;
+    private TextView change_profile_pic;
+    private Button update;
+    private EditText first_name, last_name, phone_no, home_airport, country, zip_code, home_address, city, state;
+    private Spinner  country_code, date_of_birth_month, date_of_birth_day, date_of_birth_year;
+    private String[] date_of_birth_month_items = new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    private String[] date_of_birth_day_items = new String[] {"21", "22", "23", "24"};
+    private String[] date_of_birth_year_items = new String[] {"2000", "2001", "2002","1999"};
+    private String[] country_code_items = new String[] {"+91", "+92", "+93"};
+    private String radio_button_selection="Male";
+    private TextView actionbar_titile, custom_toolbar_menu_item;
+    private JSONObject jsonObject = null;
+    private String selectedItem_country_code = null;
+    private String selectedItem_day = null;
+    private String selectedItem_month = null;
+    private String selectedItem_year = null;
+    private TextInputLayout NameTil, LastNameTil, MobileNoTil;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private ArrayList<String> selectionResult = new ArrayList<>();
+    public static final String TAG = "AccountSetting";
+
+    public static AccountSettings newInstance() {
+        AccountSettings fragment = new AccountSettings();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.account_settings, null, false);
+
+        close = (ImageView) v.findViewById(R.id.close);
+        actionbar_titile = (TextView) v.findViewById(R.id.action_bar_title);
+        custom_toolbar_menu_item = (TextView) v.findViewById(R.id.custom_toolbar_menu_item);
+        update = (Button) v.findViewById(R.id.update);
+
+        change_profile_pic = (TextView) v.findViewById(R.id.change_profile_pic) ;
+        profile_pic = (ImageView) v.findViewById(R.id.profile_pic);
+
+        first_name = (EditText) v.findViewById(R.id.first_name);
+        last_name = (EditText) v.findViewById(R.id.last_name);
+        phone_no = (EditText) v.findViewById(R.id.phone_no);
+        home_airport = (EditText) v.findViewById(R.id.home_airport);
+        country = (EditText) v.findViewById(R.id.country);
+        zip_code = (EditText) v.findViewById(R.id.zip_code);
+        home_address = (EditText) v.findViewById(R.id.home_address);
+        city = (EditText) v.findViewById(R.id.city);
+        state = (EditText) v.findViewById(R.id.state);
+
+        radioGroup = (RadioGroup) v.findViewById(R.id.radio_group);
+
+        NameTil = (TextInputLayout) v.findViewById(R.id.input_layout_name);
+        LastNameTil = (TextInputLayout) v.findViewById(R.id.input_layout_last_name);
+        MobileNoTil = (TextInputLayout) v.findViewById(R.id.input_layout_phone_no);
+
+        country_code = (Spinner) v.findViewById(R.id.country_code);
+        date_of_birth_month = (Spinner) v.findViewById(R.id.month);
+        date_of_birth_day = (Spinner) v.findViewById(R.id.day);
+        date_of_birth_year = (Spinner) v.findViewById(R.id.year);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.setClickable(true);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        actionbar_titile.setText("Account Settings");
+
+        date_of_birth_day.setPrompt("Day");
+        date_of_birth_month.setPrompt("Month");
+        date_of_birth_year.setPrompt("Year");
+        selectedItem_day = date_of_birth_day_items[0];
+        selectedItem_month = date_of_birth_month_items[0];
+        selectedItem_year = date_of_birth_year_items[0];
+        selectedItem_country_code = country_code_items[0];
+
+        ArrayAdapter<String> country_code_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, country_code_items);
+        country_code_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        country_code.setAdapter(country_code_adapter);
+
+        ArrayAdapter<String> date_of_birth_month_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_month_items);
+        date_of_birth_month_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_month.setAdapter(date_of_birth_month_adapter);
+
+        ArrayAdapter<String> date_of_birth_year_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_year_items);
+        date_of_birth_year_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_year.setAdapter(date_of_birth_year_adapter);
+
+        ArrayAdapter<String> date_of_birth_day_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_day_items);
+        date_of_birth_day_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_day.setAdapter(date_of_birth_day_adapter);
+
+        if(AppConfig.account_setting_List.size() !=0)
+        {
+            first_name.setText(AppConfig.account_setting_List.get(0).getFirst_name());
+            last_name.setText(AppConfig.account_setting_List.get(0).getLast_name());
+            phone_no.setText(AppConfig.account_setting_List.get(0).getPhone_no());
+            home_airport.setText(AppConfig.account_setting_List.get(0).getHome_airport());
+            country.setText(AppConfig.account_setting_List.get(0).getCountry());
+            zip_code.setText(AppConfig.account_setting_List.get(0).getZip_code());
+            home_address.setText(AppConfig.account_setting_List.get(0).getHome_address());
+            city.setText(AppConfig.account_setting_List.get(0).getCity());
+            state.setText(AppConfig.account_setting_List.get(0).getState());
+
+            Glide.with(getContext())
+                    .load(AppConfig.account_setting_List.get(0).getProfile_pic())
+                    .crossFade()
+                    .placeholder(R.drawable.profile_placeholder)
+                    .error(R.drawable.error_icon)
+                    .bitmapTransform(new GlideCircleTransformation(getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(profile_pic);
+
+            //country_code.setSelection(0);
+            selectSpinnerItemByValue(country_code, country_code_items,AppConfig.account_setting_List.get(0).getCountry_code());
+           if(AppConfig.account_setting_List.get(0).getDob().isEmpty()){
+               selectSpinnerItemByValue(date_of_birth_day, date_of_birth_day_items,(AppConfig.account_setting_List.get(0).getDob()).substring(0,2));
+               selectSpinnerItemByValue(date_of_birth_month, date_of_birth_month_items,(AppConfig.account_setting_List.get(0).getDob()).substring(3,5));
+               selectSpinnerItemByValue(date_of_birth_year, date_of_birth_year_items,(AppConfig.account_setting_List.get(0).getDob()).substring(6,10));
+           }
+        }
+
+        close.setOnClickListener(this);
+        change_profile_pic.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+        update.setOnClickListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
+
+    }
+
+    public void selectSpinnerItemByValue(Spinner spinner,String[] array,String text) {
+        for(int i=0;i<array.length;i++) {
+            if(array[i].equals(text)) {
+                spinner.setSelection(i);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.custom_toolbar_menu_item:
+                break;
+            case R.id.change_profile_pic:
+// Checking camera availability
+                if (!isDeviceSupportCamera()) {
+                    Toast.makeText(getContext(),
+                            "Sorry! Your device doesn't support camera",
+                            Toast.LENGTH_LONG).show();
+                    // will close the app if the device does't have camera
+                    getActivity().finish();
+                }else {
+                    //captureImage();
+                    Intent intent = new Intent(getContext(), MediaActivity.class);
+                    intent.putExtra(MEDIA_TYPE, MEDIA_TYPE_PHOTOS_SINGLE_SELECTION);
+                    startActivityForResult(intent, REQUEST_CODE_PHOTOS);
+                }
+                break;
+            case R.id.update:
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                radioButton = (RadioButton) v.findViewById(selectedId);
+                NameTil.setErrorEnabled(false);
+                LastNameTil.setErrorEnabled(false);
+                MobileNoTil.setErrorEnabled(false);
+                if(first_name.getText().toString().isEmpty()){
+                    //signUpLastNameTil.setErrorEnabled(false);
+                    NameTil.setError("Please enter name");
+                }/*else if(!valueName.isEmpty() && valueName.length() < 3){
+                        signUpNameTil.setError("the First Name field must be at least 2 characters in length");
+                    }*/
+                else if(last_name.getText().toString().isEmpty()){
+                    //signUpNameTil.setErrorEnabled(false);
+                    LastNameTil.setError("Please enter last name");
+                }/*else if(!valueLastName.isEmpty() && valueLastName.length() < 3){
+                        signUpLastNameTil.setError("the Last Name field must be at least 2 characters in length");
+                    }*/
+                else if(phone_no.getText().toString().isEmpty()){
+                    //signUpLastNameTil.setErrorEnabled(false);
+                    MobileNoTil.setError("Please enter phone no.");
+                }else {
+                    MobileNoTil.setErrorEnabled(false);
+                    if (phone_no.getText().toString().length()==10) {
+                        jsonObject = new JSONObject();
+                        try {
+                            if(null!= AppConfig.getUser_id())
+                            {
+                                jsonObject.put("first_name", first_name.getText().toString());
+                                jsonObject.put("last_name", last_name.getText().toString());
+                                jsonObject.put("country_name", country.getText().toString());
+                                jsonObject.put("pin_code", zip_code.getText().toString());
+                                jsonObject.put("address", home_address.getText().toString());
+                                jsonObject.put("state", state.getText().toString());
+                                jsonObject.put("country_code", selectedItem_country_code);
+                                jsonObject.put("date_of_birth", selectedItem_day+"/"+selectedItem_month+"/"+selectedItem_year);
+                                jsonObject.put("phone", phone_no.getText().toString());
+                                jsonObject.put("home_airport", home_airport.getText().toString());
+                                jsonObject.put("city", city.getText().toString());
+                                jsonObject.put("gender", radio_button_selection);
+                                jsonObject.put("user_id", AppConfig.getUser_id());
+                                if(!selectionResult.isEmpty())
+                                jsonObject.put("image", selectionResult.get(0));
+
+                                VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                                volleyRequest.settings_Account_settings(jsonObject);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        MobileNoTil.setError("Please enter valid phone no.");
+                    }
+                }
+
+
+                break;
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(!selectionResult.isEmpty()){
+            selectionResult.clear();
+        }
+        switch (requestCode) {
+
+            case REQUEST_CODE_PHOTOS:
+                /*if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<Media> mediaArrayList = data.getParcelableArrayListExtra(SINGLE_PHOTO_LIST);
+                    Log.d(TAG, "number of selected images = " + mediaArrayList.size());
+                    for(int i = 0; i<mediaArrayList.size(); i++){
+                        selectionResult.add(mediaArrayList.get(i).path);
+                        Glide.with(getContext())
+                                .load(mediaArrayList.get(i).path)
+                                .crossFade()
+                                .placeholder(R.drawable.profile_placeholder)
+                                //.error(R.drawable.error_icon)
+                                .bitmapTransform(new GlideCircleTransformation(getContext()))
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(profile_pic);
+                    }
+
+
+                }*/
+                if (resultCode == RESULT_OK && data != null) {
+                    Media selectedSingleImage = data.getParcelableExtra(SINGLE_PHOTO_LIST);
+                    Log.d(TAG, "selected Single Image path = " + selectedSingleImage.path);
+                    selectionResult.add(selectedSingleImage.path);
+                    Glide.with(getContext())
+                            .load(selectedSingleImage.path)
+                            .crossFade()
+                            .placeholder(R.drawable.profile_placeholder)
+                            //.error(R.drawable.error_icon)
+                            .bitmapTransform(new GlideCircleTransformation(getContext()))
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(profile_pic);
+                }
+               /* JSONObject jsonObject = new JSONObject();
+                //JSONArray jsonArray =  new JSONArray(IMAGEPTHLIST);
+                JSONArray jsonArray =  new JSONArray(selectionResult);
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put(AppConfig.KEY_USER_ID, AppConfig.getUser_id());
+                        jsonObject.put(AppConfig.KEY_IMAGEPATH, jsonArray);
+
+
+                        jsonObject.put(AppConfig.KEY_GROUP_ID, "1");
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.signedInHome_Profile_UploadPhotos(jsonObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+                break;
+
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch(view.getId()){
+            case R.id.country_code:
+                selectedItem_country_code = country_code_items[position];
+                break;
+            case R.id.day:
+                selectedItem_day = date_of_birth_day_items[position];
+                break;
+            case R.id.month:
+                selectedItem_month = date_of_birth_month_items[position];
+                break;
+            case R.id.year:
+                selectedItem_year = date_of_birth_year_items[position];
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+        switch(checkedId){
+            case R.id.male:
+                radioButton = (RadioButton) getView().findViewById(R.id.male);
+                // do operations specific to this selection
+                radio_button_selection = radioButton.getText().toString();
+                break;
+            case R.id.female:
+                radioButton = (RadioButton) getView().findViewById(R.id.female);
+                // do operations specific to this selection
+                radio_button_selection = radioButton.getText().toString();
+                break;
+        }
+    }
+    /**
+     * Checking device has camera hardware or not
+     * */
+    private boolean isDeviceSupportCamera() {
+        if (getContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA)) {
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+}

@@ -1,0 +1,238 @@
+package com.travelur.utility;
+
+import android.graphics.Typeface;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.Patterns;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.travelconnect.friends.models.YourFriendsListItems;
+import com.travelur.travelconnect.friends.models.YourFriendsSuggestionListItems;
+import com.travelur.travelconnect.home.models.Home;
+import com.travelur.travelconnect.home.models.ItemObjects;
+import com.travelur.travelconnect.photos.models.PhotoDataModel;
+import com.travelur.travelconnect.profile.models.Profile;
+import com.travelur.travelconnect.rewards.models.Rewards;
+import com.travelur.travelconnect.settings.adapters.QuestionListCheckBoxAdapter;
+import com.travelur.travelconnect.settings.adapters.QuestionListInputBoxAdapter;
+import com.travelur.travelconnect.settings.adapters.QuestionListRadioButtonAdapter;
+import com.travelur.travelconnect.settings.models.AccountSettingsDataModel;
+import com.travelur.travelconnect.settings.models.YourPreferencesDataModel;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListCheckBoxDataModel;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListCheckBoxDataModelOptions;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListInputBoxDataModel;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListInputBoxDataModelOptions;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListRadioButtonDataModel;
+import com.travelur.travelconnect.settings.models.questionlisttypedatamodel.QuestionListRadioButtonDataModelOptions;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsCancellationPolicyListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsDetailItenaryGalleryListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsDetaileItenaryListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsPricePolicyListItem;
+import com.travelur.travelconnect.vacationpackages.models.VacationPackageMoreDetailsTermsConditionListItem;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/*
+ * @author by Abhijit .
+ */
+
+public class AppConfig {
+
+    public static final String IMAGE_DIRECTORY_NAME = "Android File Upload";;
+    public static final String TAG_FRAGMENT = "TAG_FRAGMENT";
+    public static final String TAG_FRAGMENT_QUESTIONLIST = "TAG_FRAGMENT_QUESTIONLIST";
+    public static TextView PACKAGE_PRICE;
+    public static TextView PACKAGE_NAME ;
+    public static ImageView PACKAGE_IMAGE_VIEW;
+    public static long splashdeay = 5000;
+    public static final int REPEAT_COUNT = 1;
+    public static final long DURATION = 150;
+    public static String KEY_NAME = "first_name";
+    public static String KEY_LASTNAME = "last_name";
+    public static String KEY_EMAIL = "email";
+    public static String KEY_USER_ID = "user_id";
+    public static String KEY_PASSWORD = "password";
+    public static String KEY_CONFIRM_PASSWORD = "confirm_password";
+    public static String KEY_USERNAME = "username";
+    public static String KEY_TYPE = "type";
+    public static String KEY_ID = "id";
+    public static String KEY_MOBILENO = "mobile_number";
+    public static String KEY_IMAGEPATH = "IMAGEPATH";
+    public static String KEY_MESSAGE = "message";
+    public static String KEY_WALL_ID = "wall_id";
+    public static String KEY_GROUP_ID = "group_id";
+    public static String KEY_COMMENT = "comment";
+    public static String KEY_GROUP_NAME = "group_name";
+    public static String KEY_GROUP_DESC = "group_desc";
+    public static String KEY_PACKAGE_ID = "package_id";
+
+    public static int MIN_FRIEND_COUNT = 25;
+    public static int MIN_TRANSACTION_COUNT = 3;
+    public static int MIN_PROFILE_PERCENTAGE = 100;
+    public static int MIN_POST_COUNT = 25;
+
+    public static String KEY_FIRST_NAME = "first_name";
+    public static String KEY_LAST_NAME = "last_name";
+    public static String KEY_COUNTRY_NAME = "country_name";
+    public static String KEY_PIN_CODE = "pin_code";
+    public static String KEY_ADDRESS = "address";
+    public static String KEY_STATE = "state";
+    public static String KEY_COUNTRY_CODE = "country_code";
+    public static String KEY_DATE_OF_BIRTH = "date_of_birth";
+    public static String KEY_PHONE = "phone";
+    public static String KEY_HOME_AIRPORT = "home_airport";
+    public static String KEY_CITY = "city";
+    public static String KEY_IMAGE = "image";
+
+    public static String KEY_QID = "qid";
+    public static String KEY_ANSWER = "answer";
+
+    public static String MESSAGE = "Please wait. We are loading the video...";
+    public static String TITLE = "Loading...";
+    public static String BUTTON_NEGATIVE = "DISMISS";
+    public static String user_id;
+    public static Typeface font;
+
+    public static Typeface font_OpenSans_Light;
+
+    public static final  String VIDEO_DIALOG_MSG = "Please wait. We are loading the video...";
+
+    public static final String BASE_URL = "https://travelurdev001.azurewebsites.net/userwebservice/";
+    public static  final String VIDEO_URL_MOBILE = "http://travelurdev001.azurewebsites.net/extras/assets/video/Travel_UR_mobile.mp4";
+
+    private static PasswordValidator passwordValidator;
+
+    //Initializing our Home list
+    //Creating a List of Home Elements
+    public static List<Home> home_List = new ArrayList<>();
+    public static List<Profile> group_List = new ArrayList<>();
+    public static List<YourPreferencesDataModel> question_List = new ArrayList<>();
+    public static List<AccountSettingsDataModel> account_setting_List = new ArrayList<>();
+    public static List<Rewards> reward_worldtour_list = new ArrayList<>();
+    public static List<Rewards> reward_europeantour_list = new ArrayList<>();
+    public static List<Rewards> reward_couplesgateway_international_list = new ArrayList<>();
+    public static List<Rewards> reward_couplesgateway_domestic_list = new ArrayList<>();
+    public static List<Rewards> reward_knowurneighbour_list = new ArrayList<>();
+    public static List<Rewards> reward_localsplendors_list = new ArrayList<>();
+    public static List<VacationPackageListItem> vacationpackages_get_all = new ArrayList<>();
+    public static List<VacationPackageMoreDetailsListItem> vacationpackages_moredetails_listitem = new ArrayList<>();
+    public static List<VacationPackageMoreDetailsTermsConditionListItem> vacationpackages_moredetails_termscondition_listitem = new ArrayList<>();
+    public static List<VacationPackageMoreDetailsDetaileItenaryListItem> vacationpackages_moredetails_detaileditenary_listitem = new ArrayList<>();
+    public static List<PhotoDataModel> vacationpackages_moredetails_gallery_listitem = new ArrayList<>();
+    public static List<VacationPackageMoreDetailsPricePolicyListItem> vacationpackages_moredetails_pricePolicy_listitem = new ArrayList<>();
+    public static List<VacationPackageMoreDetailsCancellationPolicyListItem> vacationpackages_moredetails_cancellationPolicy_listitem = new ArrayList<>();
+    public static List<YourFriendsListItems> yourFriendsListItems = new ArrayList<>();
+    public static List<YourFriendsSuggestionListItems> yourFriendsSuggestionListItems = new ArrayList<>();
+    public static List<ItemObjects> gaggeredList = new ArrayList<ItemObjects>();
+    public static ArrayList<QuestionListCheckBoxDataModel> question_List_checkBox = new ArrayList<>();
+    public static ArrayList<QuestionListRadioButtonDataModel> question_List_radioButton = new ArrayList<>();
+    public static ArrayList<QuestionListInputBoxDataModel> question_List_inputBox = new ArrayList<>();
+    public static ArrayList<QuestionListCheckBoxDataModelOptions> question_List_checkBox_optionType = new ArrayList<>();
+    public static ArrayList<QuestionListRadioButtonDataModelOptions> question_List_radioButton_optionType = new ArrayList<>();
+    public static ArrayList<QuestionListInputBoxDataModelOptions> question_List_inputBox_optionType = new ArrayList<>();
+    public static String vacation_package_seletedppackege;
+    public static QuestionListCheckBoxAdapter adapter_checkbox = null;
+    public static QuestionListRadioButtonAdapter adapter_radiobutton = null;
+    public static QuestionListInputBoxAdapter adapter_inputbox = null;
+    public static ArrayList<String> answer_list = new ArrayList<>();
+    public static List<PhotoDataModel> urphoto_List = new ArrayList<>();
+    public static java.lang.String TermsOfService = "http://travelurdev001.azurewebsites.net/userwebservice/terms";
+    public static java.lang.String Cancellation = "http://travelurdev001.azurewebsites.net/userwebservice/cancelation";
+    public static java.lang.String PrivacyPolicy = "http://travelurdev001.azurewebsites.net/userwebservice/helpsupport";
+    public static int profile_percentage;
+
+    public static int MEDIA_TYPE_PHOTOS = 327;
+    public static int MEDIA_TYPE_VIDEOS = 123;
+    public static int DEFAULT = 234;
+    public static String MEDIA_TYPE = "MEDIA_TYPE";
+    public static String PHOTO_LIST = "PHOTO_LIST";
+    public static String VIDEO_EXTRA = "VIDEO_EXTRA";
+    public static final int REQUEST_CODE_PHOTOS = 912;
+    public static final int REQUEST_CODE_VIDEOS = 972;
+    public static RecyclerView.Adapter friendsSuggestionAdapter;
+    public static TextView friends_count;
+    public static TextView pending_requests_count;
+
+    public static  boolean validateEmail(CharSequence email)
+    {
+        if (email == null) {
+            return false;
+        } else {
+            return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        }
+    }
+
+    public static boolean validatePassword(String password) {
+        passwordValidator = new PasswordValidator();
+        if (password == null) {
+            return false;
+        } else {
+            return passwordValidator.validate(password);
+        }
+    }
+    public static String getUser_id() {
+        return user_id;
+    }
+
+    public static void setUser_id(String user_id) {
+        AppConfig.user_id = user_id;
+    }
+    public static Typeface getFont() {
+        return font;
+    }
+
+    public static void setFont(Typeface font) {
+        AppConfig.font = font;
+    }
+    public static Typeface getFont_OpenSans_Light() {
+        return font_OpenSans_Light;
+    }
+
+    public static void setFont_OpenSans_Light(Typeface font_OpenSans_Light) {
+        AppConfig.font_OpenSans_Light = font_OpenSans_Light;
+    }
+
+    public static long getElapsedTime(){
+        long diff = 0;
+        String rewardsEndDate = "2017-11-30 24:00:00";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            Date lastDate = dateFormat.parse(rewardsEndDate);
+            System.out.println(lastDate);
+
+            Date currentDate = new Date();
+
+            diff = lastDate.getTime()-currentDate.getTime();
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
+
+            if (lastDate.before(currentDate)) {
+
+                Log.e("oldDate", "is previous date");
+                Log.e("Difference: ", " seconds: " + seconds + " minutes: " + minutes
+                        + " hours: " + hours + " days: " + days);
+
+            }
+
+            // Log.e("toyBornTime", "" + toyBornTime);
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return diff;
+    }
+}

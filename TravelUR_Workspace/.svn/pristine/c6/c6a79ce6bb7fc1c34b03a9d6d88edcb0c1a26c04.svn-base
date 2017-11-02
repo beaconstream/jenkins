@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen1_bg"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:text="@string/close"
+        android:id="@+id/setPassword_close"
+        android:textColor="@color/textView_color"
+        android:textSize="@dimen/ttf"/>
+    <LinearLayout
+        android:id="@+id/setPassword_flipAround_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/textView_desc_joinTravelUR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_L"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin_L"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:id="@+id/textView4" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+            android:id="@+id/set_email_til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:ems="10"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+            <requestFocus />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/set_pwd_til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:ems="10"
+                android:hint="@string/hint_password"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/set_confirm_pwd_til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/confirm_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:ems="10"
+                android:hint="@string/hint_confirmPassword"
+                android:inputType="textPassword"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:text="@string/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setpassword_submit"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_L"
+            android:textSize="@dimen/buttonText_size"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_L"
+            android:layout_marginTop="@dimen/activity_vertical_margin_XL"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+        <TextView
+            android:text="@string/textView_desc_oldMemberSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/textView_size"
+            android:id="@+id/setpassword_old_member"
+            android:textColor="@color/textView_color"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:gravity="center|bottom"
+            android:layout_gravity="bottom"
+            />
+    </LinearLayout>
+
+</LinearLayout>

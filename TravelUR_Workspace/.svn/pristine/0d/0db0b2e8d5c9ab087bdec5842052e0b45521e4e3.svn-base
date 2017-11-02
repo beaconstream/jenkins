@@ -1,0 +1,52 @@
+package com.travelur.general;
+
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.travelur.utility.CustomFonts;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Author by Abhijit.
+ */
+
+public class BaseFragment extends Fragment {
+
+    protected Typeface font, font_Raleway_Light, font_Raleway_ExtraLight, font_Raleway_Medium, font_Raleway_Thin, font_OpenSans_Light, font_Raleway_SemiBold;
+    protected List<Typeface> customFont;
+    protected CustomFonts customFonts;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        customFont = new ArrayList<>();
+        font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
+        font_Raleway_Light= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Light.ttf");
+        font_Raleway_ExtraLight= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-ExtraLight.ttf");
+        font_Raleway_Medium= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Medium.ttf");
+        font_Raleway_Thin= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Thin.ttf");
+        font_OpenSans_Light= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/OpenSans-Light.ttf");
+        font_Raleway_SemiBold = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-SemiBold.ttf");
+
+    }
+
+}

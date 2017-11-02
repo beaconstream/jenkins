@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/custom_toolbar"/>
+    <!--<android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/camera_bar">-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/imageView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/imageView_height"
+                    android:background="@drawable/yourpreferencesheroimg"
+
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/answer_questions"
+                        android:textColor="@color/White"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textView_size"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+              <FrameLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:id="@+id/contaner_question_list">
+              </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+</LinearLayout>

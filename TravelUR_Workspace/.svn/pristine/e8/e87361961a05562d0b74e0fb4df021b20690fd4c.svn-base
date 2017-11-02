@@ -1,0 +1,17 @@
+package com.travelur.travelconnect.settings.models.questionlisttypedatamodel;
+
+/**
+ * @abhijit by Abhijit.
+ */
+
+public class QuestionListCheckBoxDataModel {
+
+    public String options;
+    public boolean checked;
+
+    public QuestionListCheckBoxDataModel(String options, boolean checked) {
+        this.options = options;
+        this.checked = checked;
+
+    }
+}

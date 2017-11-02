@@ -1,0 +1,657 @@
+package com.travelur.travelconnect.home;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.erikagtierrez.multiple_media_picker.Gallery;
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.gallery.MediaActivity;
+import com.travelur.travelconnect.gallery.model.Media;
+import com.travelur.travelconnect.signedinhome.MainActivity;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.GlideCircleTransformation;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE_PHOTOS;
+import static com.travelur.utility.AppConfig.MEDIA_TYPE_VIDEOS;
+import static com.travelur.utility.AppConfig.PHOTO_LIST;
+import static com.travelur.utility.AppConfig.REQUEST_CODE_PHOTOS;
+import static com.travelur.utility.AppConfig.REQUEST_CODE_VIDEOS;
+import static com.travelur.utility.AppConfig.VIDEO_EXTRA;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class Post extends BaseFragment implements View.OnClickListener {
+
+    TextView shareIt_camera, shareItTextView_camera, shareIt_gallery, shareItTextView_gallery, shareIt_video, shareItTextView_video;
+    private TextView shareIt_action_bar_title, shareIt, shareWith, shareIt_globe_ttf, shareIt_uploadedImage_close, shareIt_camera_ttf, shareIt_location_ttf, shareIt_emoji_ttf;
+    private EditText shareIt_message;
+    private Spinner shareIt_spinner;
+    private ImageView shareIt_profilePic, shareIt_uploadedImage, shareIt_close;
+    private View shareItLayout;
+    private List<String> IMAGEPTHLIST = new ArrayList<>();
+    private String message;
+    private Button write_post_shareit;
+    static final int OPEN_MEDIA_PICKER = 4;  // Request code
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+    // Camera activity request codes
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    static final int PICK_IMAGE_REQUEST = 1;
+    String filePath;
+    private String mCurrentPhotoPath;
+    private boolean isImage_data = false;
+    private ArrayList<String> selectionResult = new ArrayList<>();
+    private Animation animationSlideDown;
+
+    public static Post newInstance() {
+        Post fragment = new Post();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        animationSlideDown = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.shareit, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        view.setClickable(true);
+        shareIt_close = (ImageView) view.findViewById(R.id.close);
+        write_post_shareit = (Button) view.findViewById(R.id.write_post_shareit);
+        shareIt = (TextView) view.findViewById(R.id.shareIt_message);
+        shareIt_action_bar_title = (TextView) view.findViewById(R.id.action_bar_title);
+        /*shareWith = (TextView) shareItLayout.findViewById(R.id.shareWith);
+        shareIt_globe_ttf = (TextView) shareItLayout.findViewById(R.id.globe);*/
+        shareIt_uploadedImage_close = (TextView) view.findViewById(R.id.write_post_uploadedImage_close);
+        shareIt_camera_ttf = (TextView) view.findViewById(R.id.shareIt_camera);
+      /*  shareIt_location_ttf = (TextView) shareItLayout.findViewById(R.id.shareIt_location);
+        shareIt_emoji_ttf = (TextView) shareItLayout.findViewById(R.id.shareIt_emoji);*/
+        shareIt_message = (EditText) view.findViewById(R.id.shareIt_message);
+        shareIt_message.clearFocus();
+        shareIt_profilePic = (ImageView) view.findViewById(R.id.shareIt_profilePic);
+        if(!AppConfig.home_List.isEmpty()){
+            Glide.with(getContext())
+                    .load(AppConfig.home_List.get(0).getUser_image())
+                    .crossFade()
+                    .placeholder(R.drawable.profile_placeholder)
+                    //.error(R.drawable.error_icon)
+                    .bitmapTransform(new GlideCircleTransformation(getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(shareIt_profilePic);
+        }
+
+        //shareIt_uploadedImage = (ImageView) shareItLayout.findViewById(R.id.write_post_uploadedImage);
+        //shareIt_globe_ttf.setTypeface(font);
+        shareIt_camera_ttf.setTypeface(font);
+        //shareIt_location_ttf.setTypeface(font);
+        //shareIt_emoji_ttf.setTypeface(font);
+        shareIt.setTypeface(font_Raleway_ExtraLight);
+        shareIt_action_bar_title.setTypeface(font_Raleway_Light);
+        shareIt_action_bar_title.setText(R.string.text_post);
+        //shareWith.setTypeface(font_Raleway_Light);
+        write_post_shareit.setTypeface(font_Raleway_ExtraLight);
+
+        shareIt_camera_ttf.setOnClickListener(this);
+        //shareIt_location_ttf.setOnClickListener(this);
+        //shareIt_emoji_ttf.setOnClickListener(this);
+        write_post_shareit.setOnClickListener(this);
+        shareIt_message.setOnClickListener(this);
+        shareIt_close.setOnClickListener(this);
+        /*getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);*/
+        /*shareIt_message.setFocusable(true);
+        shareIt_message.requestFocus();*/
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.shareIt_message:
+
+                break;
+            case R.id.shareIt_camera:
+                //mediaBrowse();
+                View morePopUpshareIt = displayPopupWindowSahreIt(getView());
+                shareIt_camera = (TextView) morePopUpshareIt.findViewById(R.id.shareIt_camera);
+                shareItTextView_camera = (TextView) morePopUpshareIt.findViewById(R.id.shareItTextView_camera);
+                /*shareIt_gallery = (TextView) morePopUpshareIt.findViewById(R.id.shareIt_gallery);
+                shareItTextView_gallery = (TextView) morePopUpshareIt.findViewById(R.id.shareItTextView_gallery);*/
+                shareIt_video = (TextView) morePopUpshareIt.findViewById(R.id.shareIt_video);
+                shareItTextView_video = (TextView) morePopUpshareIt.findViewById(R.id.shareItTextView_video);
+
+                shareIt_camera.setTypeface(font);
+                shareItTextView_camera.setTypeface(font_Raleway_Light);
+               /* shareIt_gallery.setTypeface(font);
+                shareItTextView_gallery.setTypeface(font_Raleway_Light);*/
+                shareIt_video.setTypeface(font);
+                shareItTextView_video.setTypeface(font_Raleway_Light);
+
+                shareItTextView_camera.setOnClickListener(this);
+                /*shareItTextView_gallery.setOnClickListener(this);*/
+                shareItTextView_video.setOnClickListener(this);
+                break;
+           /* case  R.id.shareIt_location:
+
+                break;
+            case R.id.shareIt_emoji:
+
+                break;*/
+            case R.id.write_post_close:
+
+                break;
+            case R.id.write_post_shareit:
+                message = shareIt_message.getText().toString();
+                JSONObject jsonObject = new JSONObject();
+                //JSONArray jsonArray =  new JSONArray(IMAGEPTHLIST);
+                JSONArray jsonArray =  new JSONArray(selectionResult);
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put(AppConfig.KEY_USER_ID, AppConfig.getUser_id());
+                        jsonObject.put(AppConfig.KEY_IMAGEPATH, jsonArray);
+                        jsonObject.put(AppConfig.KEY_MESSAGE, message);
+                        jsonObject.put(AppConfig.KEY_WALL_ID, "1");
+                        jsonObject.put(AppConfig.KEY_GROUP_ID, "1");
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.signedInHome_Add_Post(jsonObject, isImage_data);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.shareItTextView_camera:
+                // Checking camera availability
+                if (!isDeviceSupportCamera()) {
+                    Toast.makeText(getContext(),
+                            "Sorry! Your device doesn't support camera",
+                            Toast.LENGTH_LONG).show();
+                    // will close the app if the device does't have camera
+                    getActivity().finish();
+                }else{
+                    //captureImage();
+                    Intent intent = new Intent(getContext(), MediaActivity.class);
+                    intent.putExtra(MEDIA_TYPE, MEDIA_TYPE_PHOTOS);
+                    startActivityForResult(intent, REQUEST_CODE_PHOTOS);
+                }
+
+
+                break;
+           /* case  R.id.shareItTextView_gallery:
+                //imageBrowse();
+                mediaBrowse();
+                break;*/
+            case R.id.shareItTextView_video:
+                // Checking camera availability
+                if (!isDeviceSupportCamera()) {
+                    Toast.makeText(getContext(),
+                            "Sorry! Your device doesn't support camera",
+                            Toast.LENGTH_LONG).show();
+                    // will close the app if the device does't have camera
+                    getActivity().finish();
+                }else{
+                    //recordVideo();
+                    Intent intent = new Intent(getContext(), MediaActivity.class);
+                    intent.putExtra(MEDIA_TYPE, MEDIA_TYPE_VIDEOS);
+                    startActivityForResult(intent, REQUEST_CODE_VIDEOS);
+                }
+                break;
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                //MainActivityLayout.setVisibility(View.VISIBLE);
+                //MainActivityLayout.startAnimation(animationSlideDown);
+               /* shareItLayout.startAnimation(animationSlideDown);
+                shareItLayout.setVisibility(View.GONE);*/
+
+                break;
+        }
+    }
+    private void mediaBrowse() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, OPEN_MEDIA_PICKER);
+            } else {
+                Intent intent= new Intent(getContext(), Gallery.class);
+                //Set the title
+                intent.putExtra("title","Camera Roll");
+                startActivityForResult(intent,OPEN_MEDIA_PICKER);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Display popup attached to the button as a position anchor
+    private View displayPopupWindowSahreIt(View anchorView) {
+        PopupWindow popup = new PopupWindow(getActivity());
+        View layout = LayoutInflater.from(getActivity()).inflate(R.layout.shareit_camera_popupcontent, null);
+        popup.setContentView(layout);
+        // Set content width and height
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        // Closes the popup window when touch outside of it - when looses focus
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+        // Show anchored to button
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.setAnimationStyle(R.anim.popup_anim);
+        popup.showAtLocation(layout, Gravity.BOTTOM, 0, 250);
+
+        View container = (View) popup.getContentView().getParent().getParent();
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.8f;
+        wm.updateViewLayout(container, p);
+
+        return layout;
+    }
+
+    /**
+     * Checking device has camera hardware or not
+     * */
+    private boolean isDeviceSupportCamera() {
+        if (getContext().getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_CAMERA)) {
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+
+    /**
+     * Launching camera app to capture image
+     */
+    private void captureImage() {
+        getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+    }
+    private void imageBrowse() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_REQUEST);
+            } else {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                // Start the Intent
+                startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Get Path of selected image
+    private String getPath(Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader loader = new CursorLoader(getContext(), contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
+    public String getVideoPath(Uri uri) {
+        int column_index = 0;
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        if (cursor != null) {
+            column_index =    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            cursor.moveToFirst();
+
+        }
+        return cursor.getString(column_index);
+    }
+
+    /**
+     * Launching camera app to record video
+     */
+    private void recordVideo() {
+        getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode)
+        {
+            case PICK_IMAGE_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+                }
+                else
+                {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+
+                break;
+            case CAMERA_CAPTURE_IMAGE_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // Ensure that there's a camera activity to handle the intent
+                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        // Create the File where the photo should go
+                        File photoFile = null;
+                        try {
+                            photoFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        // Continue only if the File was successfully created
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(getContext(),
+                                    "com.travelur.fileprovider",
+                                    photoFile);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+                        }
+                    }
+                }
+                else
+                {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+            case CAMERA_CAPTURE_VIDEO_REQUEST_CODE:
+                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                if (takeVideoIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(takeVideoIntent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+                }
+                break;
+            case OPEN_MEDIA_PICKER:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    Intent intent= new Intent(getContext(), Gallery.class);
+                    //Set the title
+                    intent.putExtra("title","Camera Roll");
+                    startActivityForResult(intent,OPEN_MEDIA_PICKER);
+                }
+                else
+                {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                    Toast.makeText(getContext(),R.string.no_permission, Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+    /**
+     * Receiving activity result method will be called after closing the camera
+     * */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // if the result is capturing Image
+        if(!selectionResult.isEmpty()){
+            selectionResult.clear();
+        }
+        if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE && data!=null) {
+            if (resultCode == getActivity().RESULT_OK) {
+
+                // successfully captured the image
+                // launching upload activity
+                //launchUploadActivity(true, data);
+
+
+            } else if (resultCode == getActivity().RESULT_CANCELED) {
+
+                // user cancelled Image capture
+                Toast.makeText(getContext(),
+                        "User cancelled image capture", Toast.LENGTH_SHORT)
+                        .show();
+
+            } else {
+                // failed to capture image
+                Toast.makeText(getContext(),
+                        "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+        } else if(requestCode == PICK_IMAGE_REQUEST){
+            if (resultCode == getActivity().RESULT_OK) {
+
+                if(requestCode == PICK_IMAGE_REQUEST){
+
+                    launchUploadActivity(true, data);
+
+                   /* shareIt_uploadedImage.setVisibility(View.VISIBLE);
+                    shareIt_uploadedImage_close.setVisibility(View.VISIBLE);
+                    shareIt_uploadedImage.setImageURI(picUri);*/
+
+                }else if (resultCode == getActivity().RESULT_CANCELED) {
+
+                    // user cancelled recording
+                    Toast.makeText(getContext(),
+                            "User cancelled picking up image", Toast.LENGTH_SHORT)
+                            .show();
+
+                } else {
+                    // failed to record video
+                    Toast.makeText(getContext(),
+                            "Sorry! Failed to load image", Toast.LENGTH_SHORT)
+                            .show();
+                }
+
+            }
+        } else if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
+            if (resultCode == getActivity().RESULT_OK) {
+                Uri videoUri = data.getData();
+                //mVideoView.setVideoURI(videoUri);
+                launchUploadActivity(false, data);
+            }else if (resultCode == getActivity().RESULT_CANCELED) {
+
+                // user cancelled recording
+                Toast.makeText(getContext(),
+                        "User cancelled video recording", Toast.LENGTH_SHORT)
+                        .show();
+
+            }else {
+                // failed to record video
+                Toast.makeText(getContext(),
+                        "Sorry! Failed to record video", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }// Check which request we're responding to
+        else if (requestCode == OPEN_MEDIA_PICKER) {
+            // Make sure the request was successful
+            if (resultCode == getActivity().RESULT_OK && data != null) {
+                selectionResult=data.getStringArrayListExtra("result");
+            }
+
+        }
+        switch (requestCode) {
+
+            case REQUEST_CODE_PHOTOS:
+                if (resultCode == RESULT_OK && data != null) {
+                    isImage_data = true;
+                    ArrayList<Media> mediaArrayList = data.getParcelableArrayListExtra(PHOTO_LIST);
+                    Log.d(TAG, "number of selected images = " + mediaArrayList.size());
+                    for(int i = 0; i<mediaArrayList.size(); i++)
+                    selectionResult.add(mediaArrayList.get(i).path);
+                }
+                break;
+            case REQUEST_CODE_VIDEOS:
+                isImage_data = false;
+                if (resultCode == RESULT_OK && data != null) {
+                    Media selectedVideo = data.getParcelableExtra(VIDEO_EXTRA);
+                    Log.d(TAG, "selected video path = " + selectedVideo.path);
+                    selectionResult.add(selectedVideo.path);
+                }
+                break;
+        }
+    }
+
+    private void launchUploadActivity(boolean isImage, Intent data)
+    {
+        isImage_data = isImage;
+        if(isImage){
+            Uri picUri = data.getData();
+
+            filePath = getPath(picUri);
+
+            IMAGEPTHLIST.add(filePath);
+        }else{
+            Uri videoUri = data.getData();
+
+            filePath = getVideoPath(videoUri);
+
+            IMAGEPTHLIST.add(filePath);
+        }
+    }
+
+    /**
+     * ------------ Helper Methods ----------------------
+     * */
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
+    /**
+     * Creating file uri to store image/video
+     */
+    public void getOutputMediaFileUri(int type) {
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE }, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+            } else {
+                if(type == MEDIA_TYPE_IMAGE)
+                {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // Ensure that there's a camera activity to handle the intent
+                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        // Create the File where the photo should go
+                        File photoFile = null;
+                        try {
+                            photoFile = getOutputMediaFile(type);
+                        } catch (IOException ex) {
+                            // Error occurred while creating the File
+                        }
+                        // Continue only if the File was successfully created
+                        if (photoFile != null) {
+                            Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                                    "com.travelur.fileprovider", photoFile);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                            startActivityForResult(takePictureIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+                        }
+                    }
+                }else if(type == MEDIA_TYPE_VIDEO){
+                    Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    if (takeVideoIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivityForResult(takeVideoIntent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * returning image / video
+     */
+    private File getOutputMediaFile(int type)throws IOException {
+
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        String videoFileName = "MP4_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File mediaFile = null;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        }else if (type == MEDIA_TYPE_VIDEO) {
+            mediaFile = File.createTempFile(
+                    videoFileName,  /* prefix */
+                    ".mp4",         /* suffix */
+                    storageDir      /* directory */
+            );
+        }else{
+            return  null;
+        }
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = mediaFile.getAbsolutePath();
+        return mediaFile;
+    }
+
+}

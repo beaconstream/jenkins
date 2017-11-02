@@ -1,0 +1,150 @@
+package com.travelur.travelconnect.settings.settingtype;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.settings.Setting;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class EmailPassword extends BaseFragment implements View.OnClickListener {
+
+    private TextInputLayout emailTil, oldPasswordTil, passwordTil, confirmPasswordTil;
+    private EditText email, oldPassword, password, confirmPassword;
+    private TextView cancel;
+
+    public static EmailPassword newInstance() {
+        EmailPassword fragment = new EmailPassword();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.emailpassword, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.setClickable(true);
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        title.setText("Email & Password");
+        cancel = (TextView)view.findViewById(R.id.cancel);
+
+        Button update= (Button) view.findViewById(R.id.update);
+
+        emailTil = (TextInputLayout)view.findViewById(R.id.set_email_til) ;
+        oldPasswordTil =AppConfig.changePassword_oldPassword_til =  (TextInputLayout)view.findViewById(R.id.set_old_password_til) ;
+        passwordTil = (TextInputLayout)view.findViewById(R.id.set_confirm_password_til);
+        confirmPasswordTil = (TextInputLayout)view.findViewById(R.id.set_confirm_re_enter_confirm_pwd_til);
+
+        email = (EditText) view.findViewById(R.id.email);
+        if(!AppConfig.home_List.isEmpty())
+        email.setText(AppConfig.home_List.get(0).getProfile_details_List().get(0).getEmail());
+        oldPassword = (EditText) view.findViewById(R.id.current_password);
+        password = (EditText) view.findViewById(R.id.new_password);
+        confirmPassword = (EditText) view.findViewById(R.id.confirm_password);
+
+
+        close.setOnClickListener(this);
+        update.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.update:
+                //call Web_Services
+                emailTil.setErrorEnabled(false);
+                oldPasswordTil.setErrorEnabled(false);
+                passwordTil.setErrorEnabled(false);
+                confirmPasswordTil.setErrorEnabled(false);
+
+                String valueEmail = email.getText().toString().trim();
+                String valueOldPassword = oldPassword.getText().toString().trim();
+                String valueSetPassword = password.getText().toString().trim();
+                String valueSetConfirmPassword = confirmPassword.getText().toString().trim();
+
+                // Check for empty data in the form
+                //if (!valueSetPassword.isEmpty() && AppConfig.getUser_id()!=null) {
+                // login user
+                if(valueEmail.isEmpty()){
+                    emailTil.setError("Please enter email");
+                }
+                else if(valueOldPassword.isEmpty()){
+                    oldPasswordTil.setError("Please enter Old password");
+                }
+                else if(valueSetPassword.isEmpty()){
+                    passwordTil.setError("Please enter password");
+                }else if(valueSetConfirmPassword.isEmpty()){
+                    confirmPasswordTil.setError("Please enter confirm passowrd");
+                }else{
+                    passwordTil.setErrorEnabled(false);
+                    confirmPasswordTil.setErrorEnabled(false);
+
+                        if (AppConfig.validatePassword(valueSetConfirmPassword)) {
+                            passwordTil.setErrorEnabled(false);
+                            if(valueSetPassword.equals(valueSetConfirmPassword))
+                            {
+                                AppConfig.changePassword_old_password = valueOldPassword;
+                                AppConfig.changePassword_email = valueEmail;
+                                AppConfig.changePassword_password = valueSetPassword;
+                                AppConfig.changePassword_confirm_password = valueSetConfirmPassword;
+
+                                AppConfig.changePassword_oldPassword_til = oldPasswordTil;
+
+                                //setConfirmPasswordTil.setErrorEnabled(false);
+                                VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                                volleyRequest.settings_checkoldPassword(getFragmentManager());
+                            }else{
+                                //setPasswordTil.setError("Password does not match");
+                                passwordTil.setError("Password does not match");
+                                confirmPasswordTil.setError("Password does not match");
+                            }
+                        }else{
+                            confirmPasswordTil.setError("Password rules don't have the following: \n" +"Password must be at least 8 characters long & \n" +
+                                    "Password should contain any two of the following below conditions(combination of lowercase, uppercase, numbers, Special characters)");
+                        }
+                }
+                break;
+            case R.id.cancel:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+        }
+    }
+}

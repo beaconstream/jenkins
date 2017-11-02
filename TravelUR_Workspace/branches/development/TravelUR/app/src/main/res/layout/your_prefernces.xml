@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/custom_toolbar"/>
+    <!--<android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/camera_bar">-->
+    <RelativeLayout
+        android:layout_below="@id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--<ScrollView
+            android:layout_above="@+id/m_table_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">-->
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/imageView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/imageView_height"
+                    android:background="@drawable/yourpreferencesheroimg"
+
+                    android:gravity="center">
+                    <TextView
+                        android:text="@string/answer_questions"
+                        android:textColor="@color/White"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textView_size"
+                        android:gravity="center"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/contaner_question_list">
+                </FrameLayout>
+            </LinearLayout>
+       <!-- </ScrollView>-->
+        <TableLayout
+            android:id="@+id/m_table_menu"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="0dp"
+            android:stretchColumns="*">
+            <RelativeLayout
+                android:clickable="true"
+                android:background="@color/White"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="@color/Gray_Cloud" />
+                <LinearLayout
+
+                    android:layout_margin="@dimen/activity_layout_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/arrow_left"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/ic_action_rounded_arrowleft_dark"/>
+                    <View
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"/>
+                    <ImageView
+                        android:id="@+id/arrow_right"
+                        android:layout_width="@dimen/profile_pic_width"
+                        android:layout_height="@dimen/profile_pic_height"
+                        android:background="@drawable/ic_action_rounded_arrowright_dark"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </TableLayout>
+    </RelativeLayout>
+
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+</LinearLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/cardview_light_background">
+
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="@dimen/profile_pic_width"
+        android:layout_height="@dimen/profile_pic_height"
+        android:layout_margin="8dp"
+        android:textSize="50sp"
+        android:textColor="@color/vpi__bright_foreground_inverse_holo_dark"
+        android:gravity="center"
+        android:text="@string/profile_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="First name and last name"
+                android:textColor="@color/Black"
+                android:textSize="@dimen/textView_size_M" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="Accepted your friend request."
+                android:textSize="@dimen/textView_size_S" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="8dp"
+            android:text="Wed"
+            android:textSize="@dimen/textView_size_M"
+            android:textColor="@color/Ash_Gray" />
+    </LinearLayout>
+
+
+</LinearLayout>

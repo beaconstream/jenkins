@@ -1,0 +1,9 @@
+package com.travelur.travelconnect.vacationpackages.models;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class VacationPackageMoreDetailsCancellationPolicyListItem {
+
+}

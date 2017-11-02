@@ -1,0 +1,224 @@
+package com.travelur.travelconnect.settings.settingtype;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.GlideCircleTransformation;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class AccountSettings extends BaseFragment implements View.OnClickListener , AdapterView.OnItemSelectedListener{
+
+    private ImageView profile_pic;
+    private TextView change_profile_pic;
+    private Button update;
+    private EditText first_name, last_name, phone_no, home_airport, country, zip_code, home_address, city, state;
+    private Spinner  country_code, date_of_birth_month, date_of_birth_day, date_of_birth_year;
+    private String[] date_of_birth_month_items = new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+    private String[] date_of_birth_day_items = new String[] {"21", "22", "23", "24"};
+    private String[] date_of_birth_year_items = new String[] {"2000", "2001", "2002","1999"};
+    private String[] country_code_items = new String[] {"+91", "+92", "+93"};
+    private TextView actionbar_titile, custom_toolbar_menu_item;
+    private JSONObject jsonObject = null;
+    private String selectedItem_country_code = null;
+    private String selectedItem_day = null;
+    private String selectedItem_month = null;
+    private String selectedItem_year = null;
+
+    public static AccountSettings newInstance() {
+        AccountSettings fragment = new AccountSettings();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.account_settings, null, false);
+
+        close = (ImageView) v.findViewById(R.id.close);
+        actionbar_titile = (TextView) v.findViewById(R.id.action_bar_title);
+        custom_toolbar_menu_item = (TextView) v.findViewById(R.id.custom_toolbar_menu_item);
+        update = (Button) v.findViewById(R.id.update);
+
+        change_profile_pic = (TextView) v.findViewById(R.id.change_profile_pic) ;
+        profile_pic = (ImageView) v.findViewById(R.id.profile_pic);
+
+        first_name = (EditText) v.findViewById(R.id.first_name);
+        last_name = (EditText) v.findViewById(R.id.last_name);
+        phone_no = (EditText) v.findViewById(R.id.phone_no);
+        home_airport = (EditText) v.findViewById(R.id.home_airport);
+        country = (EditText) v.findViewById(R.id.country);
+        zip_code = (EditText) v.findViewById(R.id.zip_code);
+        home_address = (EditText) v.findViewById(R.id.home_address);
+        city = (EditText) v.findViewById(R.id.city);
+        state = (EditText) v.findViewById(R.id.state);
+
+        country_code = (Spinner) v.findViewById(R.id.country_code);
+        date_of_birth_month = (Spinner) v.findViewById(R.id.month);
+        date_of_birth_day = (Spinner) v.findViewById(R.id.day);
+        date_of_birth_year = (Spinner) v.findViewById(R.id.year);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        actionbar_titile.setText("Account Settings");
+
+        date_of_birth_day.setPrompt("Day");
+        date_of_birth_month.setPrompt("Month");
+        date_of_birth_year.setPrompt("Year");
+
+        ArrayAdapter<String> country_code_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, country_code_items);
+        country_code_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        country_code.setAdapter(country_code_adapter);
+
+        ArrayAdapter<String> date_of_birth_month_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_month_items);
+        date_of_birth_month_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_month.setAdapter(date_of_birth_month_adapter);
+
+        ArrayAdapter<String> date_of_birth_year_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_year_items);
+        date_of_birth_year_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_year.setAdapter(date_of_birth_year_adapter);
+
+        ArrayAdapter<String> date_of_birth_day_adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, date_of_birth_day_items);
+        date_of_birth_day_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        date_of_birth_day.setAdapter(date_of_birth_day_adapter);
+
+        if(AppConfig.account_setting_List.size() !=0)
+        {
+            first_name.setText(AppConfig.account_setting_List.get(0).getFirst_name());
+            last_name.setText(AppConfig.account_setting_List.get(0).getLast_name());
+            phone_no.setText(AppConfig.account_setting_List.get(0).getPhone_no());
+            home_airport.setText(AppConfig.account_setting_List.get(0).getHome_airport());
+            country.setText(AppConfig.account_setting_List.get(0).getCountry());
+            zip_code.setText(AppConfig.account_setting_List.get(0).getZip_code());
+            home_address.setText(AppConfig.account_setting_List.get(0).getHome_address());
+            city.setText(AppConfig.account_setting_List.get(0).getCity());
+            state.setText(AppConfig.account_setting_List.get(0).getState());
+
+            Glide.with(getContext())
+                    .load(AppConfig.account_setting_List.get(0).getProfile_pic())
+                    .crossFade()
+                    .placeholder(R.drawable.profile_placeholder)
+                    .error(R.drawable.error_icon)
+                    .bitmapTransform(new GlideCircleTransformation(getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(profile_pic);
+
+            //country_code.setSelection(0);
+            selectSpinnerItemByValue(country_code, country_code_items,AppConfig.account_setting_List.get(0).getCountry_code());
+            selectSpinnerItemByValue(date_of_birth_day, date_of_birth_day_items,(AppConfig.account_setting_List.get(0).getDob()).substring(0,2));
+            selectSpinnerItemByValue(date_of_birth_month, date_of_birth_month_items,(AppConfig.account_setting_List.get(0).getDob()).substring(3,5));
+            selectSpinnerItemByValue(date_of_birth_year, date_of_birth_year_items,(AppConfig.account_setting_List.get(0).getDob()).substring(6,10));
+        }
+
+        close.setOnClickListener(this);
+        change_profile_pic.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+        update.setOnClickListener(this);
+
+    }
+
+    public void selectSpinnerItemByValue(Spinner spinner,String[] array,String text) {
+        for(int i=0;i<array.length;i++) {
+            if(array[i].equals(text)) {
+                spinner.setSelection(i);
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.custom_toolbar_menu_item:
+                break;
+            case R.id.change_profile_pic:
+
+                break;
+            case R.id.update:
+                jsonObject = new JSONObject();
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put("first_name", first_name.getText());
+                        jsonObject.put("last_name", last_name.getText());
+                        jsonObject.put("country_name", country.getText());
+                        jsonObject.put("pin_code", zip_code.getText());
+                        jsonObject.put("address", home_address.getText());
+                        jsonObject.put("state", state.getText());
+                        jsonObject.put("country_code", selectedItem_country_code);
+                        jsonObject.put("date_of_birth", selectedItem_day+"/"+selectedItem_month+"/"+selectedItem_year);
+                        jsonObject.put("phone", phone_no);
+                        jsonObject.put("home_airport", home_airport);
+                        jsonObject.put("city", city);
+                        jsonObject.put("user_id", AppConfig.getUser_id());
+                        jsonObject.put("image", "");
+
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.settings_Account_settings(jsonObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch(view.getId()){
+            case R.id.country_code:
+                selectedItem_country_code = country_code_items[position];
+                break;
+            case R.id.day:
+                selectedItem_day = date_of_birth_day_items[position];
+                break;
+            case R.id.month:
+                selectedItem_country_code = date_of_birth_month_items[position];
+                break;
+            case R.id.year:
+                selectedItem_year = date_of_birth_year_items[position];
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}

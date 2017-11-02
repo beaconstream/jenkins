@@ -1,0 +1,126 @@
+package com.travelur.general;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.travelconnect.signedinhome.NavigationDrawerFragment;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.CustomFonts;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class BaseFragment extends Fragment {
+
+    protected Typeface font, font_Raleway_Light, font_Raleway_ExtraLight, font_Raleway_Medium, font_Raleway_Thin, font_OpenSans_Light, font_Raleway_SemiBold;
+    protected List<Typeface> customFont;
+    protected CustomFonts customFonts;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    protected Fragment selectedFragment = null;
+    protected NavigationDrawerFragment navigationDrawerFragment;
+    protected TextView layout_Title, custom_toolbar_menu_item;
+    protected ImageView close;
+    protected TextView title;
+    protected Fragment selectedFragmentHeader = null;
+    protected Fragment selectedFragmentList = null;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        customFont = new ArrayList<>();
+        font = Typeface.createFromAsset(view.getContext().getAssets(), "fontawesome-webfont.ttf");
+        font_Raleway_Light= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Light.ttf");
+        font_Raleway_ExtraLight= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-ExtraLight.ttf");
+        font_Raleway_Medium= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Medium.ttf");
+        font_Raleway_Thin= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-Thin.ttf");
+        font_OpenSans_Light= Typeface.createFromAsset(view.getContext().getAssets(), "fonts/OpenSans-Light.ttf");
+        font_Raleway_SemiBold = Typeface.createFromAsset(view.getContext().getAssets(), "fonts/Raleway-SemiBold.ttf");
+
+    }
+
+    public void intitialiseFragment_LeftToRightTransition(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_questionList(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner_question_list, selectedFragment);
+        //transaction.addToBackStack(AppConfig.TAG_FRAGMENT_QUESTIONLIST);
+        transaction.commit();
+    }
+    public void intitialiseFragment_BottomToTopTransition(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.bottom_up, R.anim.bottom_down);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_addFriendsHeader(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.htab_header, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_addFriendsList(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner_list, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_BottomToTopTransition_addFriendsPopUp(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.bottom_up, R.anim.bottom_down);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+
+}

@@ -1,0 +1,173 @@
+package com.travelur.general;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.support.annotation.LayoutRes;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.helper.SQLiteHandler;
+import com.travelur.helper.SessionManager;
+import com.travelur.travelconnect.apploading.StartupScreen;
+import com.travelur.travelconnect.signedinhome.MainActivity;
+import com.travelur.utility.AppConfig;
+import com.travelur.utility.AppController;
+import com.travelur.utility.ConnectivityReceiver;
+
+
+/*
+ * @author by Abhijit .
+ */
+
+public abstract class BaseActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener  {
+
+    protected ProgressDialog progressDialog;
+    protected Typeface font, font_Raleway_Light, font_Raleway_ExtraLight, font_Raleway_Medium, font_Raleway_Thin, font_OpenSans_Light, font_Raleway_SemiBold;
+    protected SQLiteHandler db;
+    protected SessionManager session;
+    protected Fragment selectedFragment = null;
+    protected Fragment selectedFragmentHeader = null;
+    protected Fragment selectedFragmentList = null;
+
+    protected void showProgressDialog(){
+        if(progressDialog==null){
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.show();
+    }
+
+    protected void dismissDialog(){
+        if(progressDialog!=null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+
+        switch (layoutResID){
+            case R.layout.startup_screen:
+
+                break;
+            case  R.layout.activity_signed_in_home:
+
+                break;
+        }
+        font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
+        font_Raleway_Light= Typeface.createFromAsset(getAssets(), "fonts/Raleway-Light.ttf");
+        font_Raleway_ExtraLight= Typeface.createFromAsset(getAssets(), "fonts/Raleway-ExtraLight.ttf");
+        font_Raleway_Medium= Typeface.createFromAsset(getAssets(), "fonts/Raleway-Medium.ttf");
+        font_Raleway_Thin= Typeface.createFromAsset(getAssets(), "fonts/Raleway-Thin.ttf");
+        font_OpenSans_Light= Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Light.ttf");
+        font_Raleway_SemiBold = Typeface.createFromAsset(getAssets(), "fonts/Raleway-SemiBold.ttf");
+
+        AppConfig.setFont(font);
+        AppConfig.setFont_OpenSans_Light(font_OpenSans_Light);
+        // SQLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // register connection status listener
+        AppController.getInstance().setConnectivityListener(this);
+    }
+
+    /**
+     * Callback will be triggered when there is change in
+     * network connection
+     */
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    // Method to manually check connection status
+    public void checkConnection() {
+        boolean isConnected = ConnectivityReceiver.isConnected();
+        showSnack(isConnected);
+    }
+
+    // Showing the status in Snackbar
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+           /* message = "Good! Connected to Internet";
+            color = Color.WHITE;*/
+        } else {
+            message = "Sorry! Not connected to internet";
+            color = Color.CYAN;
+            Snackbar snackbar = Snackbar
+                    .make(getCurrentFocus(), message, Snackbar.LENGTH_LONG);
+
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(color);
+            snackbar.show();
+        }
+    }
+    public void intitialiseFragment(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_BottomToTopTransition(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.bottom_up, R.anim.bottom_down);
+        transaction.replace(R.id.contaner, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_mediaType(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.frameContainer, selectedFragment);
+        transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_friendsHeader(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.htab_header, selectedFragment);
+        //transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+    public void intitialiseFragment_LeftToRightTransition_yourFriendsList(Fragment selectedFragment){
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.replace(R.id.contaner_list, selectedFragment);
+        //transaction.addToBackStack(AppConfig.TAG_FRAGMENT);
+        transaction.commit();
+    }
+
+}

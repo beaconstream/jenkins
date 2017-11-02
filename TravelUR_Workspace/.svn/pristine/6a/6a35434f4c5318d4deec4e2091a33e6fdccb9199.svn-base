@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/White">
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grouphero"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/make_ur_mark"
+                    android:textSize="@dimen/textView_size_M"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:textSize="@dimen/textView_size_S"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gather"/>
+                <Button
+                    android:id="@+id/button_create_group"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_L"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_cyan_rounded_panel"
+                    android:text="@string/create_group"
+                    android:textColor="@color/White"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/padding"
+                android:text="@string/interesting_places"
+                android:textSize="@dimen/textView_size_M" />
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+            </ListView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,688 @@
+package com.travelur.apploading;
+
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseActivity;
+import com.travelur.signedinhome.MainActivity;
+import com.travelur.utility.AppConfig;
+import com.viewpagerindicator.CirclePageIndicator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static android.graphics.Typeface.BOLD;
+
+/*
+ * @author by Abhijit .
+ */
+
+public class StartupScreen extends BaseActivity implements View.OnClickListener {
+
+    private TextView skip, signUpOldMemeber, setPasswordOldMemeber, signInNewMember, guestLogInNewMember, forgotPasswordNewMember, signInForgetPassword, signUpClose, setPasswordClose, signInClose, forgotPasswordClose, guestSignInClose, startupMessage, videoLayout_explore_message, videoLayout_joinNow_message, videoLayout_shareIt_message, signUp_startupMessage, signIn_account_message, forgotPassword_message, forgotPassword_noWorry_message, forgotPassword_noWorry_desc_message, guestLogin_message;
+    private EditText signUpName, signUpLastName, signUpEmail, signUpConfirmEmail, signInEmail, signInPassword, setPasswordEmail, setPassword, setConfirmPasword, forgotPasswordEmail, guestSignInEmail, guestSignInMobileNo;
+    private View videoLayout, signUpLayout, signInLayout, forgotPasswordLayout, setPasswordLayout, guestSignInLayout;
+    private LinearLayout startUpScreen, signUp_flipAround_layout, signIn_flipAround_layout, forgotPassword_flipAround_layout, guestSignIn_flipAround_layout, setPassword_flipAround_layout;
+    private Button buttonVideoLayoutSignUp, buttonVideoLayoutSignIn, buttonSignIn, buttonJoinNow, buttonSubmit, buttonSendNow, buttonLogin, signUp;
+    private TextInputLayout signInEmailTil, signInPasswordTil, setPasswordTil, setConfirmPasswordTil, signUpEmailTil, signUpConfirmEmailTil, forgotPasswordEmailTil, signInGuestEmailTil, signInGuestMobileNoTil;
+    private ViewPager viewPager;
+    private CirclePageIndicator circlePageIndicator;
+    private VideoView VideoView;
+    private MediaController mediaControls;
+    private ViewPagerAdapter adapter;
+    private Animation animationSlideUp, animationSlideDown;
+    private AnimatorSet set;
+    private int position = 0;
+    private String valueName, valueLastName, valueEmail, valueConfirmEmail, valueSignInEmail, valueSignInPassword, valueSetPassword, valueSetConfirmPassword, valueForgotPasswordEmail, valueSignInGuestEmail, valueSignInGuestMobileNo;
+    private JSONObject registerUserJsonObject, signInUserJsonObject, setPasswordUserJsonObject, forgotPasswordUserJsonObject, signInGuestUserJsonObject;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.startup_screen);
+
+        progressDialog = new ProgressDialog(this);
+        intialize();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String user_id = extras.getString("user_id");
+            AppConfig.setUser_id(user_id);
+            String email = extras.getString("email");
+
+            startUpScreen.setVisibility(View.GONE);
+            setPasswordLayout.setVisibility(View.VISIBLE);
+            setPasswordLayout.startAnimation(animationSlideUp);
+            setPasswordEmail.setText(email);
+        }// Check if user is already logged in or not
+        else if (session.isLoggedIn() || session.isGuestLoggedIn()) {
+            // User is already logged in. Take him to main activity
+            Intent intent = new Intent(StartupScreen.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if(session.isLoggedInFirstTime())
+        {
+            // Launching the buttonVideoLayoutSignIn activity
+            startUpScreen.setVisibility(View.GONE);
+            videoLayout.setVisibility(View.VISIBLE);
+            videoLayout.startAnimation(animationSlideUp);
+        }
+        if (!session.isLoggedIn())
+            logoutUser();
+        else if(!session.isGuestLoggedIn())
+            logoutUser();
+
+    }
+
+    public void intialize(){
+
+        //StartupScreen
+        animationSlideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        animationSlideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+        set = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.flip_around);
+
+        startupMessage = (TextView) findViewById(R.id.startup);
+        skip = (TextView) findViewById(R.id.startup_skip);
+
+        startUpScreen = (LinearLayout) findViewById(R.id.main_screen);
+        videoLayout = findViewById(R.id.video_layout);
+        signUpLayout = findViewById(R.id.signUp_layout);
+        setPasswordLayout = findViewById(R.id.setpassword_Layout);
+        signInLayout = findViewById(R.id.signIn_layout);
+        forgotPasswordLayout = findViewById(R.id.forgetPassword_layout);
+        guestSignInLayout = findViewById(R.id.guestSignIn_layout);
+
+        signInNewMember = (TextView) signInLayout.findViewById(R.id.signin_new_member);
+        signInForgetPassword = (TextView) signInLayout.findViewById(R.id.signin_forgot_password);
+        signInClose = (TextView) signInLayout.findViewById(R.id.signIn_close);
+        buttonSignIn = (Button) signInLayout.findViewById(R.id.sign_in);
+        signUpOldMemeber = (TextView) signUpLayout.findViewById(R.id.signup_old_member);
+        signUpClose = (TextView) signUpLayout.findViewById(R.id.signUp_close);
+        buttonJoinNow = (Button) signUpLayout.findViewById(R.id.signup_join_now);
+        setPasswordOldMemeber = (TextView) setPasswordLayout.findViewById(R.id.setpassword_old_member);
+        setPasswordClose = (TextView) setPasswordLayout.findViewById(R.id.setPassword_close);
+        buttonVideoLayoutSignUp = (Button) videoLayout.findViewById(R.id.videoLayout_join_now);
+        buttonVideoLayoutSignIn = (Button) videoLayout.findViewById(R.id.videolayout_sign_in);
+        forgotPasswordNewMember = (TextView) forgotPasswordLayout.findViewById(R.id.forgotpassword_new_member);
+        forgotPasswordClose = (TextView) forgotPasswordLayout.findViewById(R.id.forgotPassword_close);
+        guestLogInNewMember = (TextView) guestSignInLayout.findViewById(R.id.signIn_guest_new_member);
+        guestSignInClose = (TextView) guestSignInLayout.findViewById(R.id.signInGuest_close);
+        signUpEmailTil = (TextInputLayout) signUpLayout.findViewById(R.id.sign_up_email_til);
+        signUpConfirmEmailTil = (TextInputLayout) signUpLayout.findViewById(R.id.sign_up_confirm_email_til);
+        setPasswordTil = (TextInputLayout) setPasswordLayout.findViewById(R.id.set_pwd_til);
+        setConfirmPasswordTil = (TextInputLayout) setPasswordLayout.findViewById(R.id.set_pwd_til);
+        signInEmailTil = (TextInputLayout) signInLayout.findViewById(R.id.sign_in_email_til);
+        signInPasswordTil = (TextInputLayout) signInLayout.findViewById(R.id.sign_in_password_til);
+        forgotPasswordEmailTil = (TextInputLayout) forgotPasswordLayout.findViewById(R.id.set_pwd_email_til);
+        signInGuestEmailTil = (TextInputLayout) guestSignInLayout.findViewById(R.id.signIn_guest_email_til);
+        signInGuestMobileNoTil = (TextInputLayout) guestSignInLayout.findViewById(R.id.signIn_guest_mobile_til);
+
+        signUpName = (EditText) signUpLayout.findViewById(R.id.name);
+        signUpLastName = (EditText) signUpLayout.findViewById(R.id.lastname);
+        signUpEmail = (EditText) signUpLayout.findViewById(R.id.email);
+        signUpConfirmEmail = (EditText) signUpLayout.findViewById(R.id.confirm_email);
+
+        signInEmail = (EditText) signInLayout.findViewById(R.id.sign_in_email);
+        signInPassword = (EditText) signInLayout.findViewById(R.id.sign_in_password);
+        forgotPasswordEmail = (EditText) forgotPasswordLayout.findViewById(R.id.forgot_password_email);
+        setPasswordEmail = (EditText) setPasswordLayout.findViewById(R.id.email);
+        setPasswordEmail.setEnabled(false);
+        setPassword = (EditText) setPasswordLayout.findViewById(R.id.pwd);
+        setConfirmPasword = (EditText) setPasswordLayout.findViewById(R.id.confirm_pwd);
+        buttonSubmit = (Button) setPasswordLayout.findViewById(R.id.setpassword_submit);
+        buttonSendNow = (Button) forgotPasswordLayout.findViewById(R.id.forgotpassword_send_now);
+
+        guestSignInEmail = (EditText) guestSignInLayout.findViewById(R.id.signIn_guest_email);
+        guestSignInMobileNo = (EditText) guestSignInLayout.findViewById(R.id.signIn_guest_mobileNo);
+        buttonLogin = (Button) guestSignInLayout.findViewById(R.id.signIn_guest);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        circlePageIndicator = (CirclePageIndicator) findViewById(R.id.titles);
+        //initialize the VideoView
+        VideoView = (VideoView) videoLayout.findViewById(R.id.videoView);
+
+        videoLayout_explore_message = (TextView) videoLayout.findViewById(R.id.videoLayout_explore_message);
+        videoLayout_joinNow_message = (TextView) videoLayout.findViewById(R.id.videoLayout_joinNow_message);
+        videoLayout_shareIt_message = (TextView) videoLayout.findViewById(R.id.videoLayout_shareIt_message);
+
+        signUp_startupMessage = (TextView) signUpLayout.findViewById(R.id.signUpLayout_joinTravelUR_message);
+        signIn_account_message = (TextView) signInLayout.findViewById(R.id.signIn_account_message);
+        forgotPassword_message = (TextView) forgotPasswordLayout.findViewById(R.id.forgotPassword_message);
+        forgotPassword_noWorry_message = (TextView) forgotPasswordLayout.findViewById(R.id.forgotPassword_noWorry_message);
+        forgotPassword_noWorry_desc_message = (TextView) forgotPasswordLayout.findViewById(R.id.forgotPassword_noWorry_desc_message);
+
+        guestLogin_message = (TextView) guestSignInLayout.findViewById(R.id.guestLogin_message);
+
+        signUp_flipAround_layout = (LinearLayout) signUpLayout.findViewById(R.id.signUp_flipAround_layout);
+        signIn_flipAround_layout = (LinearLayout) signInLayout.findViewById(R.id.signIn_flipAround_layout);
+        forgotPassword_flipAround_layout = (LinearLayout) forgotPasswordLayout.findViewById(R.id.forgotPassword_flipAround_layout);
+        guestSignIn_flipAround_layout = (LinearLayout) guestSignInLayout.findViewById(R.id.guestSignIn_flipAround_layout);
+        setPassword_flipAround_layout = (LinearLayout) setPasswordLayout.findViewById(R.id.setPassword_flipAround_layout);
+
+        buttonVideoLayoutSignUp.setOnClickListener(this);
+        buttonVideoLayoutSignIn.setOnClickListener(this);
+        videoLayout_explore_message.setOnClickListener(this);
+        skip.setOnClickListener(this);
+        signUpOldMemeber.setOnClickListener(this);
+        forgotPasswordNewMember.setOnClickListener(this);
+        buttonSendNow.setOnClickListener(this);
+        signInNewMember.setOnClickListener(this);
+        signInForgetPassword.setOnClickListener(this);
+        buttonSignIn.setOnClickListener(this);
+        buttonJoinNow.setOnClickListener(this);
+        setPasswordOldMemeber.setOnClickListener(this);
+        buttonSubmit.setOnClickListener(this);
+        buttonLogin.setOnClickListener(this);
+        guestLogInNewMember.setOnClickListener(this);
+
+        adapter = new ViewPagerAdapter(this, viewPager);
+        viewPager.setAdapter(adapter);
+        circlePageIndicator.setViewPager(viewPager);
+
+        startupMessage.setTypeface(font_Raleway_Light, BOLD);
+        skip.setTypeface(font_Raleway_Light, BOLD);
+        videoLayout_joinNow_message.setTypeface(font_Raleway_ExtraLight);
+        videoLayout_shareIt_message.setTypeface(font_Raleway_Thin, BOLD);
+        videoLayout_explore_message.setTypeface(font_Raleway_Medium);
+        buttonVideoLayoutSignIn.setTypeface(font_Raleway_Light);
+        buttonVideoLayoutSignUp.setTypeface(font_Raleway_Light);
+        signUp_startupMessage.setTypeface(font_Raleway_Light, BOLD);
+        signUpName.setTypeface(font_Raleway_ExtraLight);
+        signUpLastName.setTypeface(font_Raleway_ExtraLight);
+        signUpEmail.setTypeface(font_Raleway_ExtraLight);
+        signUpConfirmEmail.setTypeface(font_Raleway_ExtraLight);
+        buttonJoinNow.setTypeface(font_Raleway_Light);
+        signUpOldMemeber.setTypeface(font_Raleway_Thin, BOLD);
+        signUpClose.setTypeface(font);
+        signInClose.setTypeface(font);
+        setPasswordClose.setTypeface(font_Raleway_Light);
+        forgotPasswordClose.setTypeface(font_Raleway_Light);
+        guestSignInClose.setTypeface(font_Raleway_Light);
+        forgotPasswordClose.setTypeface(font);
+        guestSignInClose.setTypeface(font);
+        signIn_account_message.setTypeface(font_Raleway_Thin, BOLD);
+        signInEmail.setTypeface(font_Raleway_ExtraLight);
+        signInPassword.setTypeface(font_Raleway_ExtraLight);
+        signInForgetPassword.setTypeface(font_Raleway_Medium);
+        buttonSignIn.setTypeface(font_Raleway_Light);
+        signInNewMember.setTypeface(font_Raleway_Thin, BOLD);
+        forgotPassword_message.setTypeface(font_Raleway_Thin, BOLD);
+        forgotPassword_noWorry_message.setTypeface(font_Raleway_Light);
+        forgotPassword_noWorry_desc_message.setTypeface(font_Raleway_Light);
+        forgotPasswordEmail.setTypeface(font_Raleway_ExtraLight);
+        buttonSendNow.setTypeface(font_Raleway_Light);
+        forgotPasswordNewMember.setTypeface(font_Raleway_Thin, BOLD);
+        guestLogin_message.setTypeface(font_Raleway_Thin);
+        buttonLogin.setTypeface(font_Raleway_Light);
+        guestLogInNewMember.setTypeface(font_Raleway_Thin);
+
+
+        signUpClose.setOnClickListener(this);
+        signInClose.setOnClickListener(this);
+        setPasswordClose.setOnClickListener(this);
+        forgotPasswordClose.setOnClickListener(this);
+        guestSignInClose.setOnClickListener(this);
+
+    }
+
+    /**
+     * Logging out the user. Will set isLoggedIn flag to false in shared
+     * preferences Clears the user data from sqlite users table
+     * */
+    private void logoutUser() {
+        session.setLogin(false);
+        session.setGuestLogin(false);
+
+        db.deleteUsers();
+
+        if(session.isLoggedInFirstTime())
+        {
+            // Launching the buttonVideoLayoutSignIn activity
+            startUpScreen.setVisibility(View.GONE);
+            videoLayout.setVisibility(View.VISIBLE);
+            videoLayout.startAnimation(animationSlideUp);
+        }
+
+
+    }
+
+    @Override
+    public void onClick(final View view) {
+        switch (view.getId()) {
+            case R.id.startup_skip:
+                // Check if user is already logged in or not
+                if (session.isLoggedIn()) {
+                    // User is already logged in. Take him to main activity
+                    Intent intent = new Intent(StartupScreen.this,
+                            MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if(session.isGuestLoggedIn()){
+                    // User is already logged in. Take him to main activity
+                    Intent intent = new Intent(StartupScreen.this,
+                            MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    startUpScreen.setVisibility(View.GONE);
+                    videoLayout.setVisibility(View.VISIBLE);
+                    signUpName.setText("");
+                    signUpLastName.setText("");
+                    signUpEmail.setText("");
+                    signUpConfirmEmail.setText("");
+                }
+                break;
+            case R.id.signup_join_now:
+
+                //call Web_Services
+                valueName = signUpName.getText().toString().trim();
+                valueLastName = signUpLastName.getText().toString().trim();
+                valueEmail = signUpEmail.getText().toString().trim();
+                valueConfirmEmail = signUpConfirmEmail.getText().toString().trim();
+                registerUserJsonObject = new JSONObject();
+                if (!valueName.isEmpty() && !valueLastName.isEmpty() && !valueEmail.isEmpty() && !valueConfirmEmail.isEmpty()) {
+                    try {
+                        registerUserJsonObject.put(AppConfig.KEY_NAME, valueName);
+                        registerUserJsonObject.put(AppConfig.KEY_LASTNAME, valueLastName);
+                        registerUserJsonObject.put(AppConfig.KEY_EMAIL, valueEmail);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (AppConfig.validateEmail(valueEmail)) {
+                        if(valueEmail.equals(valueConfirmEmail))
+                        {
+                            signUpEmailTil.setErrorEnabled(false);
+                            signUpConfirmEmailTil.setErrorEnabled(false);
+                            VolleyRequest volleyRequest = new VolleyRequest(StartupScreen.this);
+                            volleyRequest.signUpUser(registerUserJsonObject);
+                        }else{
+                            signUpConfirmEmailTil.setError("EMAIL MISMATCH");
+                        }
+
+                    }else{
+                        signUpEmailTil.setError("INVALID EMAIL");
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter your details!", Toast.LENGTH_LONG)
+                            .show();
+                }
+
+                break;
+            case R.id.videolayout_sign_in:
+                videoLayout.setVisibility(View.GONE);
+                signInLayout.setVisibility(View.VISIBLE);
+                signInLayout.startAnimation(animationSlideUp);
+                break;
+            case R.id.signin_new_member:
+                signUpName.setText("");
+                signUpLastName.setText("");
+                signUpEmail.setText("");
+                signUpConfirmEmail.setText("");
+                signInLayout.setVisibility(View.GONE);
+                signUpLayout.setVisibility(View.VISIBLE);
+                signUpName.setText("");
+                signUpLastName.setText("");
+                signUpEmail.setText("");
+                signUpConfirmEmail.setText("");
+                set.setTarget(signUp_flipAround_layout);
+                set.start();
+                break;
+            case R.id.signup_old_member:
+                signUpName.setText("");
+                signUpLastName.setText("");
+                signUpEmail.setText("");
+                signUpConfirmEmail.setText("");
+                signUpLayout.setVisibility(View.GONE);
+                signInLayout.setVisibility(View.VISIBLE);
+                signInEmail.setText("");
+                signInPassword.setText("");
+                set.setTarget(signIn_flipAround_layout);
+                set.start();
+                break;
+            case R.id.setpassword_old_member:
+                setPassword.setText("");
+                setConfirmPasword.setText("");
+                setPasswordLayout.setVisibility(View.GONE);
+                signInLayout.setVisibility(View.VISIBLE);
+                signInEmail.setText("");
+                signInPassword.setText("");
+                set.setTarget(setPassword_flipAround_layout);
+                set.start();
+                break;
+            case R.id.signin_forgot_password:
+                signInEmail.setText("");
+                signInPassword.setText("");
+                signInLayout.setVisibility(View.GONE);
+                forgotPasswordLayout.setVisibility(View.VISIBLE);
+                forgotPasswordEmail.setText("");
+                set.setTarget(forgotPassword_flipAround_layout);
+                set.start();
+
+                break;
+            case R.id.forgotpassword_new_member:
+                forgotPasswordEmail.setText("");
+                forgotPasswordLayout.setVisibility(View.GONE);
+                signUpLayout.setVisibility(View.VISIBLE);
+                signUpName.setText("");
+                signUpLastName.setText("");
+                signUpEmail.setText("");
+                signUpConfirmEmail.setText("");
+                set.setTarget(signUp_flipAround_layout);
+                set.start();
+                break;
+            case R.id.setpassword_submit:
+                //call Web_Services
+                valueSetPassword = setPassword.getText().toString().trim();
+                valueSetConfirmPassword = setConfirmPasword.getText().toString().trim();
+                setPasswordUserJsonObject = new JSONObject();
+                // Check for empty data in the form
+                if (!valueSetPassword.isEmpty() && AppConfig.getUser_id()!=null) {
+                    // login user
+                    try {
+                        setPasswordUserJsonObject.put(AppConfig.KEY_USER_ID, AppConfig.getUser_id());
+                        setPasswordUserJsonObject.put(AppConfig.KEY_PASSWORD, valueSetPassword);
+                        setPasswordUserJsonObject.put(AppConfig.KEY_CONFIRM_PASSWORD, valueSetConfirmPassword);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (AppConfig.validatePassword(valueSetPassword)) {
+                        setPasswordTil.setErrorEnabled(false);
+                        if(valueSetPassword.equals(valueSetConfirmPassword))
+                        {
+                            setConfirmPasswordTil.setErrorEnabled(false);
+                            VolleyRequest volleyRequest = new VolleyRequest(StartupScreen.this);
+                            volleyRequest.setPasswordUser(setPasswordUserJsonObject);
+                        }else{
+                            setConfirmPasswordTil.setError("PASSWORD MISMATCH");
+                        }
+                    }else{
+                        setPasswordTil.setError("INVALID PASSWORD");
+                    }
+                } else {
+                    // Prompt user to enter credentials
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            case R.id.sign_in:
+
+                //call Web_Services
+                valueSignInEmail = signInEmail.getText().toString().trim();
+                valueSignInPassword = signInPassword.getText().toString().trim();
+                signInUserJsonObject = new JSONObject();
+                // Check for empty data in the form
+                if (!valueSignInEmail.isEmpty() && !valueSignInPassword.isEmpty()) {
+                    // login user
+                    try {
+                        signInUserJsonObject.put(AppConfig.KEY_USERNAME, valueSignInEmail);
+                        signInUserJsonObject.put(AppConfig.KEY_PASSWORD, valueSignInPassword);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (AppConfig.validateEmail(valueSignInEmail)) {
+                        if(AppConfig.validatePassword(valueSignInPassword)){
+                            signInEmailTil.setErrorEnabled(false);
+                            signInPasswordTil.setErrorEnabled(false);
+                            VolleyRequest volleyRequest = new VolleyRequest(StartupScreen.this);
+                            volleyRequest.signInUser(signInUserJsonObject);
+                        }else{
+                            signInEmailTil.setError("NOT VALID");
+                        }
+                    }else{
+                        signInPasswordTil.setError("NOT VALID");
+                    }
+                } else {
+                    // Prompt user to enter credentials
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            case R.id.forgotpassword_send_now:
+                //call Web_Services
+                valueForgotPasswordEmail = forgotPasswordEmail.getText().toString().trim();
+                forgotPasswordUserJsonObject = new JSONObject();
+                if (!valueForgotPasswordEmail.isEmpty()) {
+                    try {
+                        forgotPasswordUserJsonObject.put(AppConfig.KEY_EMAIL, valueForgotPasswordEmail);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (AppConfig.validateEmail(valueForgotPasswordEmail)) {
+
+                        forgotPasswordEmailTil.setErrorEnabled(false);
+                        VolleyRequest volleyRequest = new VolleyRequest(StartupScreen.this);
+                        volleyRequest.forgotPasswordUser(forgotPasswordUserJsonObject);
+
+                    }else{
+                        forgotPasswordEmailTil.setError("INVALID EMAIL");
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter your details!", Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+
+            case R.id.signIn_guest:
+                //call Web_Services
+                valueSignInGuestEmail = guestSignInEmail.getText().toString().trim();
+                valueSignInGuestMobileNo = guestSignInMobileNo.getText().toString().trim();
+                signInGuestUserJsonObject = new JSONObject();
+                // Check for empty data in the form
+                if (!valueSignInGuestEmail.isEmpty() && !valueSignInGuestMobileNo.isEmpty()) {
+                    // login user
+                    try {
+                        signInGuestUserJsonObject.put(AppConfig.KEY_USERNAME, valueSignInGuestEmail);
+                        signInGuestUserJsonObject.put(AppConfig.KEY_MOBILENO, valueSignInGuestMobileNo);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (AppConfig.validateEmail(valueSignInGuestEmail)) {
+                        if(valueSignInGuestMobileNo.length() == 10)
+                        {
+                            signInGuestEmailTil.setErrorEnabled(false);
+                            signInGuestMobileNoTil.setErrorEnabled(false);
+                            VolleyRequest volleyRequest = new VolleyRequest(StartupScreen.this);
+                            volleyRequest.signUpGuestLogin(signInGuestUserJsonObject);
+                        }else{
+                            signInGuestMobileNoTil.setError("NOT VALID");
+                        }
+                    }else{
+                        signInGuestEmailTil.setError("NOT VALID");
+                    }
+                } else {
+                    // Prompt user to enter credentials
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            case R.id.videoLayout_join_now:
+                videoLayout.setVisibility(View.GONE);
+                signUpLayout.setVisibility(View.VISIBLE);
+                signUpLayout.startAnimation(animationSlideUp);
+                break;
+            case R.id.videoLayout_explore_message:
+                videoLayout.setVisibility(View.GONE);
+                guestSignInLayout.setVisibility(View.VISIBLE);
+                guestSignInLayout.startAnimation(animationSlideUp);
+                break;
+            case R.id.signUp_close:
+                signUpLayout.setVisibility(view.GONE);
+                videoLayout.setVisibility(view.VISIBLE);
+                videoLayout.setAnimation(animationSlideDown);
+                break;
+            case R.id.setPassword_close:
+                setPasswordLayout.setVisibility(view.GONE);
+                videoLayout.setVisibility(view.VISIBLE);
+                videoLayout.setAnimation(animationSlideDown);
+                break;
+            case R.id.signIn_close:
+                signInLayout.setVisibility(view.GONE);
+                videoLayout.setVisibility(view.VISIBLE);
+                videoLayout.setAnimation(animationSlideDown);
+                break;
+            case R.id.forgotPassword_close:
+                forgotPasswordLayout.setVisibility(view.GONE);
+                videoLayout.setVisibility(view.VISIBLE);
+                videoLayout.setAnimation(animationSlideDown);
+                break;
+            case R.id.signInGuest_close:
+                guestSignInLayout.setVisibility(view.GONE);
+                videoLayout.setVisibility(view.VISIBLE);
+                videoLayout.setAnimation(animationSlideDown);
+                break;
+            case R.id.signIn_guest_new_member:
+                videoLayout.setVisibility(View.GONE);
+                signUpLayout.setVisibility(View.VISIBLE);
+                set.setTarget(signUp_flipAround_layout);
+                set.start();
+                break;
+        }
+
+        //set the media controller buttons
+        if (mediaControls == null) {
+            mediaControls = new MediaController(StartupScreen.this);
+        }
+
+        //showProgressDialog(AppConfig.VIDEO_DIALOG_MSG);
+        // set a title for the progress bar
+        progressDialog.setTitle(AppConfig.TITLE);
+        // set a message for the progress bar
+        progressDialog.setMessage(AppConfig.MESSAGE);
+
+        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, AppConfig.BUTTON_NEGATIVE, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //progressDialog.dismiss();
+            }
+        });
+
+        try {
+            //set the media controller in the VideoView
+            VideoView.setMediaController(mediaControls);
+            //set the uri of the video to be played
+            VideoView.setVideoURI(Uri.parse(AppConfig.VIDEO_URL_MOBILE));
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
+
+        VideoView.requestFocus();
+        //we also set an setOnPreparedListener in order to know when the video file is ready for playback
+        VideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                // close the progress bar and play the video
+                dismissDialog();
+                //if we have a position on savedInstanceState, the video playback should start from here
+                VideoView.seekTo(position);
+                if (videoLayout.isShown()) {
+                    VideoView.setBackground(null);
+                } else {
+                    //if we come from a resumed activity, video playback will be paused
+                    VideoView.pause();
+                    mediaPlayer.pause();
+                    mediaControls.hide();
+
+                }
+            }
+        });
+        VideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                Log.d("video", "setOnErrorListener ");
+                return true;
+            }
+        });
+        VideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+                if (VideoView.isPlaying()) {
+                    VideoView.pause();
+                    mediaControls.show(0);
+                    position = VideoView.getCurrentPosition();
+                    return false;
+                } else {
+                    mediaControls.hide();
+                    VideoView.seekTo(position);
+                    VideoView.start();
+                    return false;
+                }
+            }
+        });
+        VideoView.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                if (mp.MEDIA_INFO_VIDEO_RENDERING_START == what) {
+                    //dismissDialog();
+                }
+                if (mp.MEDIA_INFO_BUFFERING_START == what) {
+                    //showProgressDialog();
+                }
+                if (mp.MEDIA_INFO_BUFFERING_END == what) {
+                    //dismissDialog();
+                }
+                return false;
+            }
+        });
+
+        VideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                //here
+                VideoView.seekTo(1);
+            }
+        });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        //we use onSaveInstanceState in order to store the video playback position for orientation change
+        if (VideoView != null)
+        {
+            savedInstanceState.putInt("position", VideoView.getCurrentPosition());
+        }
+        VideoView.pause();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //we use onRestoreInstanceState in order to play the video playback from the stored position
+        position = savedInstanceState.getInt("Position");
+        VideoView.seekTo(position);
+    }
+}

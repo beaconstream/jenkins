@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/custom_toolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/m_table_menu">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feb 27"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/blue_roundedcorner"
+                        android:text="Hello. How are you?"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:padding="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7:45 PM EST"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feb 28"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="left"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/profile_icon"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/grey_roundedcorner"
+                            android:text="Hello. How are you?"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp"
+                            android:padding="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7:45 PM EST"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/blue_roundedcorner"
+                        android:text="Hello. How are you?"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:padding="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7:45 PM EST"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"/>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feb 28"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="left"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/profile_icon"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/grey_roundedcorner"
+                            android:text="Hello. How are you?"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp"
+                            android:padding="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7:45 PM EST"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/blue_roundedcorner"
+                        android:text="Hello. How are you?"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:padding="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="7:45 PM EST"
+                        android:layout_marginBottom="4dp"/>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="left"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/profile_icon"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/grey_roundedcorner"
+                            android:text="Hello. How are you?"
+                            android:textColor="@android:color/black"
+                            android:textSize="24sp"
+                            android:padding="16dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7:45 PM EST"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+        <TableLayout
+            android:background="@color/colorPrimary"
+            android:id="@+id/m_table_menu"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:padding="0dp"
+            android:stretchColumns="*">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+                <!-- <View
+                     android:layout_width="match_parent"
+                     android:layout_height="0.1dp"
+                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                     android:layout_marginRight="@dimen/activity_horizontal_margin"
+                     android:background="@color/Gray_Cloud" />-->
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type a message"
+                    android:textColorHint="@color/White"
+                    android:textSize="20sp"
+                    android:textColor="@color/White"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="8dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_layout_margin"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="@dimen/profile_pic_width_S"
+                            android:layout_height="@dimen/profile_pic_height_S"
+                            android:gravity="center"
+                            android:background="@drawable/ic_action_keypad"
+                            android:id="@+id/shareIt_keyboard" />
+                        <ImageView
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_width="@dimen/profile_pic_width_S"
+                            android:layout_height="@dimen/profile_pic_height_S"
+                            android:gravity="center"
+                            android:background="@drawable/ic_action_camera_white"
+                            android:id="@+id/shareIt_camera" />
+                        <ImageView
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_width="@dimen/profile_pic_width_S"
+                            android:layout_height="@dimen/profile_pic_height_S"
+                            android:gravity="center"
+                            android:background="@drawable/ic_action_emoji"
+                            android:id="@+id/shareIt_emoji" />
+                        <ImageView
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_width="@dimen/profile_pic_width_S"
+                            android:layout_height="@dimen/profile_pic_height_S"
+                            android:gravity="center"
+                            android:background="@drawable/ic_action_mic"
+                            android:id="@+id/shareIt_mic" />
+                    </LinearLayout>
+
+
+                    <!--<TextView
+                        android:id="@+id/shareIt_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_L"
+                        android:gravity="center"
+                        android:text="@string/emoji"
+                        android:textColor="@color/vpi__bright_foreground_disabled_holo_dark"
+                        android:textSize="@dimen/textView_size_header" />
+
+                    <TextView
+                        android:id="@+id/shareIt_emoji"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_L"
+                        android:gravity="center"
+                        android:text="@string/location"
+                        android:textColor="@color/vpi__bright_foreground_disabled_holo_dark"
+                        android:textSize="@dimen/textView_size_header" />-->
+                    <TextView
+                        android:id="@+id/write_post_shareit"
+                        android:layout_weight="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textView_size"
+                        android:text="@string/send"
+                        android:textColor="@color/White" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </TableLayout>
+    </RelativeLayout>
+</LinearLayout>

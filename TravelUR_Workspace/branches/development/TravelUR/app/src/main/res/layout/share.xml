@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_rounded_corner"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/share_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <View
+            android:layout_marginTop="@dimen/activity_horizontal_margin_M"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_s"
+            android:background="@color/Gray_Goose"/>
+
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Cancel"
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/textView_color"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_marginTop="@dimen/activity_horizontal_margin_M"
+                android:layout_width="@dimen/view_height_s"
+                android:layout_height="match_parent"
+                android:background="@color/Gray_Goose"/>
+
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ok"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:textColor="@color/textView_color"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

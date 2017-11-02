@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/White"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout
+        android:layout_margin="@dimen/activity_layout_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/profile_percentage"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_vertical_margin_VS"
+            android:max="100"
+            android:progress="45"
+            android:progressDrawable="@drawable/progress_drawable_cyan" />
+        <TextView
+            android:id="@+id/profile_percentage_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/20"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="@dimen/activity_layout_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/textView_size" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/question_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+        </ListView>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_margin="@dimen/activity_layout_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/arrow_left"
+            android:layout_width="@dimen/profile_pic_width"
+            android:layout_height="@dimen/profile_pic_height"
+            android:background="@drawable/ic_action_rounded_arrowleft_dark"/>
+        <View
+            android:layout_width="@dimen/profile_pic_width"
+            android:layout_height="@dimen/profile_pic_height"/>
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="@dimen/profile_pic_width"
+            android:layout_height="@dimen/profile_pic_height"
+            android:background="@drawable/ic_action_rounded_arrowright_dark"/>
+    </LinearLayout>
+</LinearLayout>

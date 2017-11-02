@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/textView_desc_videoLayout_joinNowSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin_L"
+            android:layout_gravity="center"
+            android:id="@+id/videoLayout_joinNow_message"
+            android:textColor="@color/textView_color"
+            android:textSize="@dimen/textView_size"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+        <TextView
+            android:text="@string/textView_desc_videoLayout_journey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin_L"
+            android:gravity="center"
+            android:textSize="@dimen/title"
+            android:textStyle="bold"
+            android:textColor="@color/title_color"
+            android:id="@+id/videoLayout_shareIt_message"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="0"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <VideoView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/videoView_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/video_layout4"
+                android:id="@+id/videoView" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin_XL"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            <Button
+                android:text="@string/button_joinNow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAllCaps="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin_VS"
+                android:textSize="@dimen/textView_size"
+                android:background="@color/button_videoLayout_signIn_color"
+                android:textColor="@android:color/white"
+                android:id="@+id/videoLayout_join_now" />
+
+            <Button
+                android:text="@string/button_signIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_VS"
+                android:textColor="@android:color/white"
+                android:background="@drawable/button"
+                android:textAllCaps="true"
+                android:textSize="@dimen/textView_size"
+                android:id="@+id/videolayout_sign_in" />
+        </LinearLayout>
+
+        <TextView
+            android:text="@string/textView_desc_videoLayout_explore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin_L"
+            android:gravity="center"
+            android:textColor="@color/textView_color"
+            android:textSize="@dimen/textView_size"
+            android:id="@+id/videoLayout_explore_message" />
+    </LinearLayout>
+
+</LinearLayout>

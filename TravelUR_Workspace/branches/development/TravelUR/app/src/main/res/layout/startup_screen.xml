@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/startup_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen1_bg"
+    tools:context=".travelconnect.apploading.StartupScreen">
+
+    <LinearLayout
+        android:id="@+id/main_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/startup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top"
+            android:text="@string/startup"
+            android:textColor="@color/title_color"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginTop="50dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="bottom">
+
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/startup_skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:text="skip"
+                android:textColor="#39c4f0"
+                android:textSize="20sp" />
+
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/titles"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp"
+                android:padding="10dip" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/video"
+        android:visibility="gone"
+        android:id="@+id/video_layout"/>
+    <include
+        layout="@layout/signup"
+        android:visibility="gone"
+        android:id="@+id/signUp_layout"/>
+    <include
+        layout="@layout/setpassword"
+        android:visibility="gone"
+        android:id="@+id/setpassword_Layout"/>
+    <include
+        layout="@layout/signin"
+        android:visibility="gone"
+        android:id="@+id/signIn_layout"/>
+    <include
+        layout="@layout/forget_password"
+        android:visibility="gone"
+        android:id="@+id/forgetPassword_layout"/>
+    <include
+        layout="@layout/signup_guest_user"
+        android:visibility="gone"
+        android:id="@+id/guestSignIn_layout"/>
+
+</LinearLayout>

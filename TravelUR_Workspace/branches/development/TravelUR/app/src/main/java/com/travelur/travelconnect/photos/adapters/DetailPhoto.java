@@ -1,0 +1,138 @@
+package com.travelur.travelconnect.photos.adapters;
+
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.photos.Photo;
+import com.travelur.travelconnect.photos.models.PhotoDataModel;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class DetailPhoto extends BaseFragment implements View.OnClickListener {
+
+    private TextView delete;
+    private JSONObject jsonObject;
+    public static DetailPhoto newInstance() {
+        DetailPhoto fragment = new DetailPhoto();
+        return fragment;
+    }
+    public static final String EXTRA_GALLERY_PHOTO = "PhotoFragment.GALLERY_PHOTO";
+    private ImageView mImageView;
+    private PhotoDataModel spacePhoto;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.photo, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.setClickable(true);
+        delete = (TextView)view.findViewById(R.id.delete);
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        title.setText("             ");
+        custom_toolbar_menu_item = (TextView) view.findViewById(R.id.custom_toolbar_menu_item);
+        custom_toolbar_menu_item.setText("Share");
+
+        mImageView = (ImageView) view.findViewById(R.id.image);
+        //PhotoDataModel spacePhoto = getActivity().getIntent().getParcelableExtra(EXTRA_GALLERY_PHOTO);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            spacePhoto = bundle.getParcelable(EXTRA_GALLERY_PHOTO);
+            Glide.with(this)
+                    .load(spacePhoto.getUrl())
+                    .asBitmap()
+                    //.error(R.drawable.error_icon)
+                    .placeholder(R.drawable.place_holder)
+                    .listener(new RequestListener<String, Bitmap>() {
+
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+
+                            onPalette(Palette.from(resource).generate());
+                            mImageView.setImageBitmap(resource);
+
+                            return false;
+                        }
+
+                        public void onPalette(Palette palette) {
+                            if (null != palette) {
+                                ViewGroup parent = (ViewGroup) mImageView.getParent();
+                                parent.setBackgroundColor(palette.getDarkVibrantColor(Color.GRAY));
+                            }
+                        }
+                    })
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(mImageView);
+
+            close.setOnClickListener(this);
+            delete.setOnClickListener(this);
+            custom_toolbar_menu_item.setOnClickListener(this);
+        }
+
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.custom_toolbar_menu_item:
+
+                break;
+            case R.id.delete:
+                jsonObject = new JSONObject();
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put("id", spacePhoto.getTitle());
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.urphotos_delete(jsonObject, getFragmentManager());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+}

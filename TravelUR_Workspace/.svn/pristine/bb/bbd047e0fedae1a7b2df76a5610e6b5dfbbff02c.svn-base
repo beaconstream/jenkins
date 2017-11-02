@@ -1,0 +1,30 @@
+package com.travelur.travelconnect.home;
+
+import android.content.Context;
+
+import com.travelur.travelconnect.home.models.TinderGalleryDataModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class TinderGalleryUtils {
+
+    private static final String TAG = "Utils";
+
+    public static List<TinderGalleryDataModel> loadProfiles(Context context){
+        try{
+
+            List<TinderGalleryDataModel> profileList = new ArrayList<>();
+
+            return profileList;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+}

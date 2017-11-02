@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/flight_bg">
+
+    <TextView
+        android:text="Where would you like to go?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView10"
+        android:layout_margin="42dp"
+        android:gravity="center"
+        android:textColor="#39c4f0"
+        android:textSize="24sp"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="@string/flying_from"
+            android:ems="10"
+            android:id="@+id/flying_from"
+            android:layout_margin="20dp"/>
+        <requestFocus/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Flying to..."
+            android:ems="10"
+            android:id="@+id/flying_to"
+            android:layout_margin="20dp"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Departure/Return date..."
+            android:ems="10"
+            android:id="@+id/departure"
+            android:layout_margin="20dp"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Options"
+            android:ems="10"
+            android:id="@+id/options"
+            android:layout_margin="20dp"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+    <Button
+        android:text="FIND FLIGHTS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/find_flights"
+        android:background="#008000"
+        android:textSize="18sp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="44dp"
+        android:textColor="@android:color/white"
+
+       />
+        </LinearLayout>
+</LinearLayout>

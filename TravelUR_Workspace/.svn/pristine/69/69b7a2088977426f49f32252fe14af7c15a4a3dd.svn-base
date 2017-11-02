@@ -1,0 +1,166 @@
+package com.travelur.travelconnect.vacationpackages;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.rewards.Listners.RecyclerItemClickListener;
+import com.travelur.travelconnect.rewards.RewardsActivity;
+import com.travelur.travelconnect.rewards.adapters.RewardsCouplesGatewayDomesticAdapter;
+import com.travelur.travelconnect.rewards.rewardstype.rewardsmoredetailtype.RewardsMoreDetailsCouplesGatewayDomestic;
+import com.travelur.travelconnect.settings.settingtype.YourPreferences;
+import com.travelur.travelconnect.signedinhome.MainActivity;
+import com.travelur.travelconnect.signedinhome.navigationtype.CancellationFragment;
+import com.travelur.travelconnect.vacationpackages.adapters.VacationPackageAdapter;
+import com.travelur.travelconnect.vacationpackages.moredetails.MoreDetailsActivity;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class VacationPackages extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener{
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private JSONObject jsonObject;
+    private Toolbar toolbar;
+    private TextView emptyView;
+    private Button button_more_details;
+    private ImageView close;
+    private TextView action_bar_title, custom_toolbar_menu_item;
+
+    public static VacationPackages newInstance() {
+        VacationPackages fragment = new VacationPackages();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.vacation_package_content_main, null, false);
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        close = (ImageView) view.findViewById(R.id.close);
+        action_bar_title = (TextView)view.findViewById(R.id.action_bar_title);
+        custom_toolbar_menu_item = (TextView)view.findViewById(R.id.custom_toolbar_menu_item);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent,R.color.Ash_Gray,R.color.colorPrimary);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        //Finally initializing our adapter
+        adapter = new VacationPackageAdapter(AppConfig.vacationpackages_get_all, getContext());
+        //Adding adapter to recyclerview
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                //Calling method to get data
+                refreshContent();
+            }
+        });
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, final int position) {
+                        // TODO Handle item click
+                        button_more_details = (Button) view.findViewById(R.id.moreDetails);
+                        button_more_details.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch(v.getId()){
+                                    case R.id.moreDetails:
+                                        AppConfig.vacation_package_seletedppackege = AppConfig.vacationpackages_get_all.get(position).getPackage_id();
+                                        Intent intent = new Intent(getContext(), MoreDetailsActivity.class);
+                                        startActivity(intent);
+                                        break;
+                                }
+                            }
+                        });
+
+                    }
+                })
+        );
+        close.setBackgroundResource(R.drawable.ic_action_close);
+        action_bar_title.setText(R.string.Vacation);
+        custom_toolbar_menu_item.setBackgroundResource(R.drawable.ic_action_filters);
+        close.setOnClickListener(this);
+        custom_toolbar_menu_item.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+            case R.id.custom_toolbar_menu_item:
+                selectedFragment = Filters.newInstance();
+                intitialiseFragment_LeftToRightTransition(selectedFragment);
+                break;
+        }
+    }
+    @Override
+    public void onRefresh() {
+        //Calling method to get data
+        swipeRefreshLayout.setRefreshing(true);
+        refreshContent();
+    }
+
+    private void refreshContent() {
+        swipeRefreshLayout.setRefreshing(true);
+        jsonObject = new JSONObject();
+        try {
+            if(null!=AppConfig.getUser_id())
+            {
+                jsonObject.put("user_id", AppConfig.getUser_id());
+                VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                volleyRequest.vacation_package_getAllPackages(jsonObject, adapter, swipeRefreshLayout);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+}

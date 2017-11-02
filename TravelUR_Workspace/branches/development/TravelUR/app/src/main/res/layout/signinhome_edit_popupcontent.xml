@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/White">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin_S">
+
+        <TextView
+            android:layout_weight="0.9"
+            android:textSize="@dimen/textView_size_header"
+            android:gravity="center"
+            android:id="@+id/editExperience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/editExperience"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/vpi__bright_foreground_disabled_holo_dark" />
+
+        <TextView
+            android:layout_weight="0.1"
+            android:id="@+id/editTextView_experience"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/editTextView_experience"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/vpi__bright_foreground_disabled_holo_dark" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_s"
+        android:background="@color/Gray_Cloud"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+   <LinearLayout
+       android:layout_marginTop="@dimen/activity_horizontal_margin_S"
+       android:layout_marginRight="@dimen/activity_horizontal_margin"
+       android:layout_marginLeft="@dimen/activity_horizontal_margin"
+       android:layout_marginBottom="@dimen/activity_horizontal_margin"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+           android:layout_weight="0.9"
+           android:textSize="@dimen/textView_size_header"
+           android:gravity="center"
+           android:id="@+id/delete"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/delete"
+           android:textAppearance="?android:attr/textAppearanceLarge"
+           android:textColor="@color/vpi__bright_foreground_disabled_holo_dark" />
+       <TextView
+           android:layout_weight="0.1"
+           android:id="@+id/editTextView_delete"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+           android:layout_centerVertical="true"
+           android:text="@string/editTextView_delete"
+           android:textAppearance="?android:attr/textAppearanceLarge"
+           android:textColor="@color/vpi__bright_foreground_disabled_holo_dark" />
+   </LinearLayout>
+
+</LinearLayout>

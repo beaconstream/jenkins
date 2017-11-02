@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center|bottom">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_layout_margin"
+        android:background="@color/White">
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="@dimen/profile_pic_width_S"
+            android:layout_height="@dimen/profile_pic_height_S"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:background="@drawable/ic_action_close_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+                android:gravity="center"
+                android:text="@string/invitation_successfully"
+                android:textSize="@dimen/textView_size"
+                android:textColor="@color/Gray_Wolf"/>
+
+            <ImageView
+                android:layout_width="@dimen/profile_pic_width"
+                android:layout_height="@dimen/profile_pic_height"
+                android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+                android:background="@drawable/green_tick" />
+
+            <Button
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height_M"
+                android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+                android:background="@drawable/bg_cyan_rounded"
+                android:text="@string/invite_more"
+                android:textColor="@color/textView_color"/>
+
+            <ImageView
+                android:layout_width="@dimen/profile_pic_width_XXL"
+                android:layout_height="@dimen/profile_pic_height_XXL"
+                android:layout_marginBottom="@dimen/activity_vertical_margin_L"
+                android:background="@drawable/travel_bag" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

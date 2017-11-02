@@ -1,0 +1,10 @@
+package com.travelur.travelconnect.profile;
+
+import com.travelur.general.BaseActivity;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class ProfileActivity extends BaseActivity {
+}

@@ -1,0 +1,122 @@
+package com.travelur.travelconnect.home;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.friends.Friends;
+import com.travelur.travelconnect.friends.adapters.AddFriendsListAdapter;
+import com.travelur.travelconnect.home.adapters.CommentAdapter;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class Comment extends BaseFragment implements View.OnClickListener {
+
+    private EditText write_comment;
+    private Button post;
+    private ListView comments_list;
+    private CommentAdapter adapter;
+    private JSONObject jsonObject;
+    private static int current_position;
+
+    public static Comment newInstance(int position) {
+        Comment fragment = new Comment();
+        current_position = position;
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.comment_popup, null, false);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        view.setClickable(true);
+        write_comment = (EditText)view.findViewById(R.id.writeComment);
+        post = (Button)view.findViewById(R.id.post);
+
+        close = (ImageView) view.findViewById(R.id.close);
+        close.setBackgroundResource(R.drawable.ic_action_arrowleft);
+        title = (TextView) view.findViewById(R.id.action_bar_title);
+        title.setText("Comment");
+
+        comments_list = (ListView) view.findViewById(R.id.commentsListView);
+        //ViewCompat.setNestedScrollingEnabled(comments_list,true);
+        adapter = new CommentAdapter(getActivity(), AppConfig.home_List,current_position);
+        comments_list.setAdapter(adapter);
+        comments_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
+        write_comment.setOnClickListener(this);
+        close.setOnClickListener(this);
+        post.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.writeComment:
+                break;
+            case R.id.post:
+                if(write_comment.getText().length()>0){
+                    jsonObject = new JSONObject();
+                    try {
+                        if(null!=AppConfig.getUser_id())
+                        {
+                            AppConfig.volleyCommentListAdapter = adapter;
+                            AppConfig.volleySwipeRefreshLayout = null;
+                            AppConfig.volleyRecyclerViewAdapter = null;
+                            jsonObject.put("user_id", AppConfig.getUser_id());
+                            jsonObject.put("id", AppConfig.home_List.get(current_position).getPost_id());
+                            jsonObject.put("comment", write_comment.getText().toString());
+                            VolleyRequest volleyRequest = new VolleyRequest(getActivity().getApplicationContext());
+                            volleyRequest.signedInHome_Comment(jsonObject);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Please enter a valid Comment!", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.close:
+                if (getFragmentManager().getBackStackEntryCount() > 0) {
+                    getFragmentManager().popBackStack();
+                }
+                break;
+        }
+    }
+}

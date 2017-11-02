@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen1_bg"
+    android:baselineAligned="false"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/close"
+        android:textColor="#39c4f0"
+        android:id="@+id/close2"
+        android:textSize="30sp"/>
+    <TextView
+        android:text="Forgot your password?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="50dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/textView4" />
+    <TextView
+        android:text="Not to worry!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:text="@string/forget_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@android:color/white"
+        android:id="@+id/textView3" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Your account email address"
+            android:ems="10"
+            android:id="@+id/confirm_email"
+            android:layout_margin="16dp"
+            />
+        <requestFocus />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:text="SEND now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_now"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="bottom">
+
+    <TextView
+        android:text="Don't have an account? Sign up now "
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18sp"
+        android:id="@+id/new_member1"
+        android:textColor="#39c4f0"
+        android:layout_marginBottom="16dp"
+        android:gravity="center|bottom"
+        android:layout_gravity="bottom"
+        />
+</LinearLayout>
+
+</LinearLayout>

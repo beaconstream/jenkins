@@ -1,0 +1,8 @@
+package com.travelur.travelconnect.rewards.rewardstype.rewardsmoredetailtype;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class RewardsMoreDetailsCouplesGatewayDomestic {
+}

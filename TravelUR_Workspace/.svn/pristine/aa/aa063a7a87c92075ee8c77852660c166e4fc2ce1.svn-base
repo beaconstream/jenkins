@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_item6"
+        android:icon="@drawable/ic_action_friends"
+        android:title="@string/item_6"/>
+    <item
+        android:id="@+id/action_item7"
+        android:icon="@drawable/ic_action_groups"
+        android:title="@string/item_7"/>
+    <item
+        android:id="@+id/action_item8"
+        android:icon="@drawable/ic_action_rewards"
+        android:title="@string/item_8"/>
+
+    <item
+        android:id="@+id/action_item9"
+        android:icon="@drawable/ic_action_yourtrips"
+        android:title="@string/item_9"/>
+
+</menu>

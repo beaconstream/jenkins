@@ -1,0 +1,310 @@
+package com.travelur.travelconnect.home;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.travelur.R;
+import com.travelur.backend.VolleyRequest;
+import com.travelur.general.BaseFragment;
+import com.travelur.travelconnect.home.adapters.CardAdapter;
+import com.travelur.travelconnect.rewards.Listners.RecyclerItemClickListener;
+import com.travelur.travelconnect.rewards.rewardstype.rewardsmoredetailtype.RewardsMoreDetailsCouplesGatewayInternational;
+import com.travelur.utility.AppConfig;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.travelur.utility.AppConfig.home_List;
+
+/*
+ * @author by Abhijit .
+ */
+
+public class SignedInHome extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener, View.OnClickListener {
+
+    public static SignedInHome newInstance() {
+        SignedInHome fragment = new SignedInHome();
+        return fragment;
+    }
+
+    private TextView camera,write_post;
+    private View camera_Bar;
+    //Creating Views
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private JSONObject jsonObject;
+    private Toolbar toolbar;
+    private TextView emptyView;
+    private View shareItLayout;
+    private Animation animationSlideUp;
+    //private ImageView profile_icon;
+    private TextView profile_name;
+    private ImageView profile_pic;
+    private ImageView comment_filled, like_filled, share, add;
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.content_main, null, false);
+        setHasOptionsMenu(true);//to activate search option in Menu
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //profile_icon = (ImageView) getActivity().findViewById(R.id.profile_icon);
+        profile_pic = (ImageView) getActivity().findViewById(R.id.navigation_profile_pic);
+        toolbar= (Toolbar) getActivity().findViewById(R.id.toolbar);
+        profile_name = (TextView) getActivity().findViewById(R.id.profile_name);
+        animationSlideUp = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_up);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent,R.color.Ash_Gray,R.color.colorPrimary);
+        camera_Bar = view.findViewById(R.id.camera_bar);
+        write_post= (TextView) camera_Bar.findViewById(R.id.write_post);
+        camera= (TextView) camera_Bar.findViewById(R.id.camera);
+        camera.setTypeface(font);
+        write_post.setTypeface(font_OpenSans_Light);
+        //Initializing Views
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        //Finally initializing our adapter
+        adapter = new CardAdapter(home_List, getContext());
+        //Adding adapter to recyclerview
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        write_post.setOnClickListener(this);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                //Calling method to get data
+                refreshContent();
+            }
+        });
+        //checEmptyView();
+        /*Glide.with(this)
+                .load("http://nuuneoi.com/uploads/source/playstore/cover.jpg")
+                .crossFade()
+                .placeholder(R.drawable.profile_placeholder)
+                .error(R.drawable.error_icon)
+                .bitmapTransform(new GlideCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(profile_icon);*/
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, final int position) {
+                        // TODO Handle item click
+                        comment_filled = (ImageView) view.findViewById(R.id.comment_filled);
+                        like_filled= (ImageView) view.findViewById(R.id.like_filled);
+                        share = (ImageView) view.findViewById(R.id.share);
+                        comment_filled.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch(v.getId()){
+                                    case R.id.comment:
+                                       /* selectedFragment = RewardsMoreDetailsCouplesGatewayInternational.newInstance();
+                                        intitialiseFragment_LeftToRightTransition(selectedFragment);*/
+                                        break;
+                                }
+                            }
+                        });
+                        share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alertDialog(position);
+                            }
+                        });
+                        like_filled.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                jsonObject = new JSONObject();
+                                try {
+                                    if(null!= AppConfig.getUser_id())
+                                    {
+                                        jsonObject.put("type", "1");
+                                        jsonObject.put("user_id", home_List.get(position).getUser_id());
+                                        jsonObject.put("id", home_List.get(position).getPost_id());
+                                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                                        volleyRequest.signedInHome_Like(jsonObject, adapter);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    }
+                })
+        );
+    }
+
+    @Override
+    public void onRefresh() {
+        //Calling method to get data
+        swipeRefreshLayout.setRefreshing(true);
+        refreshContent();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        //searchView.setBackground(getResources().getDrawable(R.drawable.bg_white_rounded));
+        searchView.setQueryHint("Search");
+        //searchView.setIconified(false);
+        //searchView.onActionViewExpanded();
+        searchView.setOnQueryTextListener(this);
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        // Do something when collapsed
+                        //adapter.setFilter(mCountryModel);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        // Do something when expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+
+        /*menu.findItem(R.id.action_your_trips).setIcon(
+                new IconDrawable(getActivity().getApplicationContext(), FontAwesomeIcons.fa_ticket)
+                        .colorRes(R.color.White)
+                        .actionBarSize());*/
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+       /* final List<CountryModel> filteredModelList = filter(mCountryModel, newText);
+        adapter.setFilter(filteredModelList);*/
+        //adapter.getFilter().filter(newText);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    private void refreshContent() {
+        swipeRefreshLayout.setRefreshing(true);
+        jsonObject = new JSONObject();
+        try {
+            if(null!=AppConfig.getUser_id())
+            {
+                jsonObject.put("user_id", AppConfig.getUser_id());
+                VolleyRequest volleyRequest = new VolleyRequest(getActivity().getApplicationContext());
+                volleyRequest.signedInHome_Profile(jsonObject, adapter, swipeRefreshLayout, profile_name, profile_pic);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+    private void checEmptyView() {
+        if (home_List.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.write_post:
+                selectedFragment = Post.newInstance();
+                intitialiseFragment_BottomToTopTransition(selectedFragment);
+                break;
+        }
+    }
+
+    public void alertDialog(final int position){
+        // custom dialog
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.share);
+       // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setTitle("Title...");
+
+        // set the custom dialog components - text, image and button
+        TextView share_content = (TextView) dialog.findViewById(R.id.share_content);
+        share_content.setText(R.string.share_travelconnect);
+
+
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView ok = (TextView) dialog.findViewById(R.id.ok);
+        // if button is clicked, close the custom dialog
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                jsonObject = new JSONObject();
+                try {
+                    if(null!= AppConfig.getUser_id())
+                    {
+                        jsonObject.put("user_id", AppConfig.getUser_id());
+                        jsonObject.put("id", home_List.get(position).getPost_id());
+                        VolleyRequest volleyRequest = new VolleyRequest(getContext());
+                        volleyRequest.signedInHome_Share(jsonObject);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
+}

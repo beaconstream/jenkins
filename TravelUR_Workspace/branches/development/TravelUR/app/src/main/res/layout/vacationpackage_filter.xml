@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+    <include layout="@layout/toolbar_filter"
+        android:id="@+id/custom_toolbar"/>
+    <ScrollView
+        android:layout_below="@id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/duration_layout"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textView_size"
+                    android:textColor="@color/Gray_Wolf"
+                    android:text="@string/duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                       android:text="Days: "
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/duration2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+                <!--<SeekBar
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="12"/>-->
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:corner_radius="10"
+                    app:min_value="1"
+                    app:max_value="12"
+                    app:bar_color="@color/Gray_Cloud"
+                    app:bar_highlight_color="@color/colorPrimary"
+                    app:left_thumb_color="@color/colorPrimary"
+                    app:right_thumb_color="@color/colorPrimary"
+                    app:left_thumb_color_pressed="@color/colorPrimary"
+                    app:right_thumb_color_pressed="@color/colorPrimary"
+                    app:data_type="_integer"/>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/textView_size"
+                android:textColor="@color/Gray_Wolf"
+                android:text="@string/Vacation_type"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/vacation_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/textView_size"
+                android:textColor="@color/Gray_Wolf"
+                android:text="@string/destinations"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/budget_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_s"
+                android:background="@color/Gray_Goose"/>
+            <TextView
+                android:textStyle="bold"
+                android:textSize="@dimen/textView_size"
+                android:textColor="@color/Gray_Wolf"
+                android:text="@string/moreTextView_destinations"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="@dimen/activity_layout_margin"
+                android:id="@+id/destination_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TableLayout
+        android:id="@+id/m_table_menu"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="0dp"
+        android:stretchColumns="*">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@color/Gray_Cloud" />
+            <LinearLayout
+                android:layout_gravity="bottom|fill_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/clear"
+                    android:text="@string/clear"
+                    android:background="@color/White"
+                    android:layout_weight="1"
+                    android:textColor="@color/Gray_Goose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:background="@color/Gray_Goose"
+                    android:layout_width="@dimen/view_height_s"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/apply"
+                    android:text="@string/apply"
+                    android:background="@color/White"
+                    android:layout_weight="1"
+                    android:textColor="@color/Gray_Goose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </TableLayout>
+</RelativeLayout>

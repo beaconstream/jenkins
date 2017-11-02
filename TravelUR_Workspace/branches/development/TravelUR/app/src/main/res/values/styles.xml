@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#00548b</item>
+        <item name="colorPrimaryDark">#00548b</item>
+        <item name="colorAccent">#00548b</item>
+        <item name="android:textColorHint">@color/Gray_Cloud</item>
+        <item name="android:textColorSecondary">@color/Ash_Gray</item>
+        <item name="actionMenuTextColor">@color/button_post_background</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/Light_Salmon</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- PopuP Enter Exit Animation -->
+    <style name="PopupAnimation" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/bottom_up</item>
+        <item name="android:windowExitAnimation">@anim/bottom_down</item>
+    </style>
+</resources>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/custom_toolbar"
+        android:id="@+id/custom_toolbar"/>
+    <ScrollView
+        android:layout_below="@+id/custom_toolbar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/White">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/textView_size"
+                android:textStyle="bold"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/card_background"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_layout_margin"
+                    android:orientation="vertical">
+
+                    <!--<TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hint_email" />-->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/set_email_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:editable="false"
+                            android:id="@+id/email"
+                            android:padding="@dimen/padding_S"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/editText_height"
+                            android:background="@drawable/bg_white_rounded_panel"
+                            android:hint="@string/hint_email"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_layout_margin"
+                    android:orientation="vertical">
+
+                    <!-- <TextView
+                         android:padding="@dimen/padding_S"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         />-->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/set_old_password_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/current_password"
+                            android:padding="@dimen/padding_S"
+                            android:layout_weight="0.7"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/editText_height"
+                            android:background="@drawable/bg_white_rounded_panel"
+                            android:hint="@string/current_password" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_layout_margin"
+                    android:orientation="vertical">
+
+                    <!--  <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/new_password" />-->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/set_confirm_password_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/new_password"
+                            android:padding="@dimen/padding_S"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/editText_height"
+                            android:background="@drawable/bg_white_rounded_panel"
+                            android:hint="@string/new_password" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin_XL"
+                    android:orientation="vertical">
+
+                    <!--<TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/retype_new_password" />-->
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/set_confirm_re_enter_confirm_pwd_til"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/confirm_password"
+                            android:hint="@string/retype_new_password"
+                            android:padding="@dimen/padding_S"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/editText_height"
+                            android:background="@drawable/bg_white_rounded_panel" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end|center_vertical"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin_XL"
+                android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                <Button
+                    android:id="@+id/update"
+                    android:layout_width="@dimen/button_width"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update"
+                    android:textColor="@color/White"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_L"
+                    android:background="@drawable/bg_cyan_rounded_panel"/>
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

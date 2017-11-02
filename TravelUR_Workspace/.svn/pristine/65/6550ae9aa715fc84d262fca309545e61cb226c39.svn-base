@@ -1,0 +1,19 @@
+package com.travelur.travelconnect.vacationpackages.models;
+
+/**
+ * @author by Abhijit.
+ */
+
+public class VacationPackageMoreDetailsDetaileItenaryListItem {
+    public String getItinerary_description() {
+        return itinerary_description;
+    }
+
+    public void setItinerary_description(String itinerary_description) {
+        this.itinerary_description = itinerary_description;
+    }
+
+    String itinerary_description;
+    public VacationPackageMoreDetailsDetaileItenaryListItem(String itinerary_description) {
+    }
+}
